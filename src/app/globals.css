@@ -176,3 +176,37 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .text-heading-1 {
+    @apply font-poppins font-bold text-2xl sm:text-5xl;
+  }
+
+  .text-heading-2 {
+    @apply font-poppins font-semibold text-2xl sm:text-[2.5rem];
+  }
+
+  .text-heading-3 {
+    @apply font-poppins font-semibold text-2xl sm:text-[2rem];
+  }
+
+  .text-heading-5 {
+    @apply font-poppins font-semibold text-xl sm:text-2xl;
+  }
+
+  .text-heading-6 {
+    @apply font-poppins font-semibold text-base sm:text-lg;
+  }
+
+  .text-body-lg {
+    @apply text-base sm:text-lg font-body;
+  }
+
+  .text-body-base {
+    @apply text-sm sm:text-base font-body;
+  }
+
+  .text-body-sm {
+    @apply text-xs sm:text-sm font-body;
+  }
+}
