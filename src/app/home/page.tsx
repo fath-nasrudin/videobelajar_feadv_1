@@ -1,5 +1,6 @@
 import { Header } from "@/components/header";
 import { Hero1 } from "@/components/hero-1";
+import { Button } from "@/components/ui/button";
 
 const pageData = {
   hero: {
@@ -15,9 +16,9 @@ function Hero() {
   return (
     <Hero1>
       <div className="max-w-[920px] p-4 space-y-4 text-light-primary text-center">
-        <h1 className="heading-1">{pageData.hero.title}</h1>
-        <p className="body-medium">{pageData.hero.description}</p>
-        <button className="btn btn--primary">{pageData.hero.action}</button>
+        <h1 className="text-heading-1">{pageData.hero.title}</h1>
+        <p className="text-body-base">{pageData.hero.description}</p>
+        <Button variant={"primary"}>{pageData.hero.action}</Button>
       </div>
     </Hero1>
   );
