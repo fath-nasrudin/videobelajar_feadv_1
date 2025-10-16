@@ -16,6 +16,14 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
+  /* text colors */
+  --color-dark-primary: var(--dark-primary);
+  --color-dark-secondary: var(--dark-secondary);
+  --color-dark-disabled: var(--dark-disabled);
+  --color-light-primary: var(--light-primary);
+  --color-light-secondary: var(--light-secondary);
+  --color-light-disabled: var(--light-disabled);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-head: var(--font-poppins);
@@ -73,6 +81,14 @@
 
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
+
+  /* text colors */
+  --dark-primary: rgba(34, 35, 37, 1);
+  --dark-secondary: rgba(51, 51, 51, 0.68);
+  --dark-disabled: rgba(58, 53, 65, 0.38);
+  --light-primary: rgba(255, 255, 255, 1);
+  --light-secondary: rgba(193, 194, 196, 1);
+  --light-disabled: rgba(157, 158, 161, 1);
 
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
