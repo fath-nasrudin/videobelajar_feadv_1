@@ -1,4 +1,5 @@
 import { CourseCard } from "@/components/courses";
+import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { Hero1 } from "@/components/hero-1";
 import { Button } from "@/components/ui/button";
@@ -130,6 +131,7 @@ export default function Homepage() {
         <Courses />
         <Newsletter />
       </main>
+      <Footer />
     </>
   );
 }
