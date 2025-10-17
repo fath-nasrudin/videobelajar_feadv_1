@@ -12,21 +12,23 @@ const courseDetail = {
     "Gapai Karier Impianmu sebagai Seorang UI/UX Designer & Product Manager.",
   instructors: [
     {
+      id: "instructor-1",
       name: "Gregorius Edrik Lawanto",
       position: "Senior Talent Acquisition",
       company: "WingsGroup",
       description:
         "Berkarier di bidang HR selama lebih dari 3 tahun. Saat ini bekerja sebagai Senior Talent Acquisition Specialist di Wings Group Indonesia (Sayap Mas Utama) selama hampir 1 tahun.",
-      profileUrl: "./img/instructor/8.png",
+      profileUrl: "/img/instructor/8.png",
     },
 
     {
+      id: "instructor-2",
       name: "Gregorius Edrik Lawanto",
       position: "Senior Talent Acquisition",
       company: "WingsGroup",
       description:
         "Berkarier di bidang HR selama lebih dari 3 tahun. Saat ini bekerja sebagai Senior Talent Acquisition Specialist di Wings Group Indonesia (Sayap Mas Utama) selama hampir 1 tahun.",
-      profileUrl: "./img/instructor/8.png",
+      profileUrl: "/img/instructor/8.png",
     },
   ],
   modules: [
@@ -209,6 +211,45 @@ function Description() {
   );
 }
 
+function Instructors() {
+  const instructors = courseDetail.instructors;
+  return (
+    <SectionShell>
+      <h5 className="text-heading-5">Belajar bersama Tutor Profesional</h5>
+
+      <div className="grid sm:grid-cols-2 gap-4">
+        {/* sub box */}
+        {instructors.map((instructor) => (
+          <div
+            key={instructor.id}
+            className="bg-card border-border border rounded-card p-5 space-y-4"
+          >
+            {/* profile */}
+            <div className="flex items-center gap-2">
+              <img
+                src={instructor.profileUrl}
+                className="w-9 aspect-square rounded-[10px] object-cover"
+              />
+              <div>
+                <div className="body-medium text-dark-primary">
+                  {instructor.name}
+                </div>
+                <div className="body-small text-dark-secondary">
+                  {instructor.position}
+                  <span className="hidden sm:inline">
+                    di <strong>{instructor.company}</strong>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <p className="text-body-base">{instructor.description}</p>
+          </div>
+        ))}
+      </div>
+    </SectionShell>
+  );
+}
+
 function CTA() {
   return (
     <div className="bg-card border-border border rounded-card p-6 space-y-6">
@@ -267,6 +308,7 @@ export default function CourseDetailPage() {
           {/* left part */}
           <div className="lg:flex-1 space-y-6">
             <Description />
+            <Instructors />
           </div>
 
           {/* right part */}
