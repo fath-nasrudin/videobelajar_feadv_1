@@ -86,7 +86,7 @@ export function Footer() {
             {/* <!-- l1c1 --> */}
             <div className="max-w-[352px] space-y-8">
               {/* <!-- brand --> */}
-              <img src="./img/logo.png" className="h-7" />
+              <img src="/img/logo.png" className="h-7" />
               {/* <!-- info --> */}
               <div>
                 {/* <!-- tagline --> */}
@@ -153,25 +153,25 @@ export function Footer() {
               href="linkedin.com"
               className="h-8 aspect-square border rounded-full flex items-center justify-center"
             >
-              <img src="./img/linkedin.svg" className="w-3/5" />
+              <img src="/img/linkedin.svg" className="w-3/5" />
             </a>
             <a
               href="facebook.com"
               className="h-8 aspect-square border rounded-full flex items-center justify-center"
             >
-              <img src="./img/facebook.svg" className="w-3/5" />
+              <img src="/img/facebook.svg" className="w-3/5" />
             </a>
             <a
               href="instagram.com"
               className="h-8 aspect-square border rounded-full flex items-center justify-center"
             >
-              <img src="./img/instagram.svg" className="w-3/5" />
+              <img src="/img/instagram.svg" className="w-3/5" />
             </a>
             <a
               href="x.com"
               className="h-8 aspect-square border rounded-full flex items-center justify-center"
             >
-              <img src="./img/twitter.svg" className="w-3/5" />
+              <img src="/img/twitter.svg" className="w-3/5" />
             </a>
           </nav>
         </div>
