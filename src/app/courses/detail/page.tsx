@@ -122,18 +122,20 @@ const courseDetail = {
   reviews: [
     {
       account: {
+        id: "user-01",
         name: "Gregorius Edrik Lawanto",
         status: "Alumni Batch 2",
-        profileUrl: "./img/instructor/8.png",
+        profileUrl: "/img/instructor/8.png",
       },
       text: "Berkarier di bidang HR selama lebih dari 3 tahun. Saat ini bekerja sebagai Senior Talent Acquisition Specialist di Wings Group Indonesia (Sayap Mas Utama) selama hampir 1 tahun.",
       rating: 3.5,
     },
     {
       account: {
+        id: "user-02",
         name: "Julious Edrik Lawanto",
         status: "Alumni Batch 4",
-        profileUrl: "./img/instructor/8.png",
+        profileUrl: "/img/instructor/8.png",
       },
       text: "Berkarier di bidang HR selama lebih dari 3 tahun. Saat ini bekerja sebagai Senior Talent Acquisition Specialist di Wings Group Indonesia (Sayap Mas Utama) selama hampir 1 tahun.",
       rating: 3.5,
@@ -305,6 +307,45 @@ function Modules() {
   );
 }
 
+function Reviews() {
+  const reviews = courseDetail.reviews;
+  return (
+    <SectionShell>
+      <h5 className="text-heading-5">Rating dan Review</h5>
+
+      <div className="grid sm:grid-cols-2 gap-4">
+        {/* sub box */}
+        {reviews.map((review) => (
+          <div
+            key={review.account.id}
+            className="bg-card border-border border rounded-card p-5 space-y-4"
+          >
+            {/* profile */}
+            <div className="flex items-center gap-2">
+              <img
+                src={review.account.profileUrl}
+                className="w-9 aspect-square rounded-[10px] object-cover"
+              />
+              <div>
+                <div className="text-body-base text-dark-primary">
+                  {review.account.name}
+                </div>
+                <div className="text-body-sm text-dark-secondary">
+                  {review.account.status}
+                </div>
+              </div>
+            </div>
+            {/* review text */}
+            <p className="text-body-base">{review.text}</p>
+            {/* rating */}
+            <Rating rating={{ average: 3.6 }} />
+          </div>
+        ))}
+      </div>
+    </SectionShell>
+  );
+}
+
 function CTA() {
   return (
     <div className="bg-card border-border border rounded-card p-6 space-y-6">
@@ -365,6 +406,7 @@ export default function CourseDetailPage() {
             <Description />
             <Instructors />
             <Modules />
+            <Reviews />
           </div>
 
           {/* right part */}
