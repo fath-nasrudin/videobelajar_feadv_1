@@ -69,7 +69,7 @@ function Courses() {
       </div>
 
       {/* <!-- tabs --> */}
-      <div className="body-medium flex text-dark-secondary text-sm tracking-wide">
+      <div className="text-body-base flex text-dark-secondary text-sm tracking-wide">
         <div className="py-3 pr-9 whitespace-nowrap text-tertiary relative">
           Semua Kelas
           <div className="w-[52px] h-[6px] rounded-[10px] bg-tertiary absolute left-0 bottom-[-6px]"></div>
@@ -90,13 +90,45 @@ function Courses() {
   );
 }
 
+function Newsletter() {
+  return (
+    <section className="mx-auto w-full max-w-[1200px] px-4 h-[400px] relative rounded-[10px] overflow-hidden">
+      <img
+        src="./img/newsletter-bg.jpg"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 w-full h-full p-4 bg-dark-primary/80 text-light-primary flex flex-col justify-center items-center">
+        <div className="max-w-[525px] space-y-10">
+          <div className="text-center">
+            <p className="text-body-lg text-light-secondary">NEWSLETTER</p>
+            <h2 className="text-heading-3">Mau Belajar Lebih Banyak?</h2>
+            <p className="text-body-base">
+              Daftarkan dirimu untuk mendapatkan informasi terbaru dan penawaran
+              spesial dari program-program terbaik hariesok.id
+            </p>
+          </div>
+          <form className="flex flex-col sm:flex-row gap-6 sm:bg-light-primary p-2 rounded-[10px]">
+            <input
+              className="sm:flex-1 bg-light-primary px-4 py-2 rounded-lg placeholder:text-dark-secondary text-center sm:text-left text-dark-primary"
+              type="text"
+              placeholder="Masukkan Emailmu"
+            />
+            <Button variant={"secondary"}>Subscribe</Button>
+          </form>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Homepage() {
   return (
     <>
       <Header />
-      <main className="bg-mbg-base py-7 px-5 sm:py-16 flex flex-col gap-6 sm:gap-16 overflow-hidden">
+      <main className="py-7 px-5 sm:py-16 flex flex-col gap-6 sm:gap-16 overflow-hidden">
         <Hero />
         <Courses />
+        <Newsletter />
       </main>
     </>
   );
