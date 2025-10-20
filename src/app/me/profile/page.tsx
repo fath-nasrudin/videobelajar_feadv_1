@@ -138,7 +138,7 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            <Button className="self-end" variant={"primary"}>
+            <Button className="sm:self-end" variant={"primary"}>
               Simpan
             </Button>
           </form>
