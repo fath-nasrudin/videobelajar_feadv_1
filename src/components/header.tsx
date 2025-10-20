@@ -72,7 +72,7 @@ const getHeaderNavLinks = () => {
     },
     {
       title: "Profil Saya",
-      url: "#",
+      url: "/me/profile",
       disabled: true,
     },
     {
