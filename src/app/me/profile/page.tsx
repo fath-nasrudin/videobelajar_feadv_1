@@ -17,6 +17,7 @@ import {
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { BsCartFill } from "react-icons/bs";
 import { LuUser } from "react-icons/lu";
 import { RiBook2Fill } from "react-icons/ri";
@@ -29,6 +30,13 @@ const data = [
 
 export default function ProfilePage() {
   const pathname = usePathname();
+  const [profile, setProfile] = useState({
+    fullname: "Jennie Ruby Jane",
+    email: "rubyjane@gmail.com",
+    phoneCode: "+62",
+    phoneNumber: "8123123123",
+  });
+  const [draftProfile, setDraftProfile] = useState(profile);
   return (
     <div className="space-y-10">
       <Header />
@@ -77,8 +85,8 @@ export default function ProfilePage() {
             </div>
             {/* text */}
             <div>
-              <h5 className="text-heading-5">Jennie Ruby Jane</h5>
-              <p className="text-body-lg">rubyjane@gmail.com</p>
+              <h5 className="text-heading-5">{profile.fullname}</h5>
+              <p className="text-body-lg">{profile.email}</p>
               <button className="text-accent">Ganti Foto Profil</button>
             </div>
           </div>
@@ -90,7 +98,19 @@ export default function ProfilePage() {
           <form className="flex flex-col gap-4">
             <div className="flex gap-4 flex-col lg:flex-row">
               <div className="relative">
-                <Input id="namalengkap" type="text" required className="peer" />
+                <Input
+                  id="namalengkap"
+                  type="text"
+                  required
+                  className="peer"
+                  value={draftProfile.fullname || ""}
+                  onChange={(e) =>
+                    setDraftProfile({
+                      ...draftProfile,
+                      fullname: e.target.value,
+                    })
+                  }
+                />
                 <Label
                   htmlFor="namalengkap"
                   className="absolute px-2 -top-1/3 left-3 bg-card peer-focus:text-primary"
@@ -99,7 +119,19 @@ export default function ProfilePage() {
                 </Label>
               </div>
               <div className="relative">
-                <Input id="email" type="email" required className="peer" />
+                <Input
+                  id="email"
+                  type="email"
+                  required
+                  className="peer"
+                  value={draftProfile.email || ""}
+                  onChange={(e) =>
+                    setDraftProfile({
+                      ...draftProfile,
+                      email: e.target.value,
+                    })
+                  }
+                />
                 <Label
                   htmlFor="email"
                   className="absolute px-2 -top-1/3 left-3 bg-card peer-focus:text-primary"
@@ -108,7 +140,16 @@ export default function ProfilePage() {
                 </Label>
               </div>
               <div className="flex gap-2">
-                <Select defaultValue="+62">
+                <Select
+                  defaultValue="+62"
+                  value={draftProfile.phoneCode || ""}
+                  onValueChange={(value) =>
+                    setDraftProfile({
+                      ...draftProfile,
+                      phoneCode: value,
+                    })
+                  }
+                >
                   <SelectTrigger className="w-[100px]">
                     <SelectValue />
                   </SelectTrigger>
@@ -117,7 +158,6 @@ export default function ProfilePage() {
                     <SelectItem value="+1">🇺🇸 +1</SelectItem>
                     <SelectItem value="+44">🇬🇧 +44</SelectItem>
                     <SelectItem value="+81">🇯🇵 +81</SelectItem>
-                    {/* tambahin sesuai kebutuhan */}
                   </SelectContent>
                 </Select>
 
@@ -127,6 +167,13 @@ export default function ProfilePage() {
                     type="tel"
                     required
                     className="peer"
+                    value={draftProfile.phoneNumber || ""}
+                    onChange={(e) =>
+                      setDraftProfile({
+                        ...draftProfile,
+                        phoneNumber: e.target.value,
+                      })
+                    }
                   />
                   <Label
                     htmlFor="phonenumber"
@@ -138,7 +185,14 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            <Button className="sm:self-end" variant={"primary"}>
+            <Button
+              className="sm:self-end"
+              variant={"primary"}
+              onClick={(e) => {
+                e.preventDefault();
+                setProfile(draftProfile);
+              }}
+            >
               Simpan
             </Button>
           </form>
