@@ -1,15 +1,34 @@
+"use client";
+
 import { Header } from "@/components/header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/lib/auth/use-auth";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const FIELD_IDS = {
-  EMAIL: "login-email",
-  PASSWORD: "login-password",
+  EMAIL: "email",
+  PASSWORD: "password",
 };
 
 export default function LoginPage() {
+  const { login } = useAuth();
+  const router = useRouter();
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  function loginHandler(e: React.FormEvent) {
+    e.preventDefault();
+    login(formData.email, formData.password);
+    router.push("/home");
+  }
+
   return (
     <div className="min-h-dvh flex flex-col">
       <Header />
@@ -34,8 +53,16 @@ export default function LoginPage() {
              */}
               <Input
                 id={FIELD_IDS.EMAIL}
+                name={FIELD_IDS.EMAIL}
                 type="email"
                 placeholder="email@example.com"
+                value={formData["email"]}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    [e.target.name]: e.target.value,
+                  })
+                }
               />
             </div>
 
@@ -44,8 +71,16 @@ export default function LoginPage() {
               <div className="relative">
                 <Input
                   id={FIELD_IDS.PASSWORD}
+                  name={FIELD_IDS.PASSWORD}
                   type="password"
                   placeholder="••••••••"
+                  value={formData["password"]}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
                 />
                 <span className="absolute inset-y-0 right-3 flex items-center text-gray-400 cursor-pointer text-sm">
                   👁
@@ -60,11 +95,16 @@ export default function LoginPage() {
             </div>
 
             <div className="flex flex-col gap-4">
-              <Link href={"/home"}>
-                <Button variant={"primary"} type="submit" className="w-full">
-                  Masuk
-                </Button>
-              </Link>
+              {/* <Link href={"/home"}> */}
+              <Button
+                variant={"primary"}
+                type="submit"
+                className="w-full"
+                onClick={loginHandler}
+              >
+                Masuk
+              </Button>
+              {/* </Link> */}
 
               <Link href={"/register"}>
                 <Button

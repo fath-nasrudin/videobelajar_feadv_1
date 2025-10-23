@@ -11,17 +11,23 @@ import {
 import React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/lib/auth/use-auth";
+import { logout } from "@/lib/auth/localstorage-auth";
 
 export function Header() {
   const pathname = usePathname();
-  const isLoggedIn = true; // context or state
+  const { isAuthenticated: isLoggedIn } = useAuth();
   const isAuthPath =
     pathname.startsWith("/login") || pathname.startsWith("/register");
 
   const authButtons = (
     <div className="flex gap-4">
-      <Button variant={"primary"}>Login</Button>
-      <Button variant={"primaryOutlined"}>Register</Button>
+      <Link href={"/login"}>
+        <Button variant={"primary"}>Login</Button>
+      </Link>
+      <Link href={"/register"}>
+        <Button variant={"primaryOutlined"}>Register</Button>
+      </Link>
     </div>
   );
   return (
@@ -87,7 +93,10 @@ const getHeaderNavLinks = () => {
     },
     {
       title: "Keluar",
-      url: "/login",
+      url: "#",
+      onClick: async () => {
+        await logout();
+      },
       Icon: LuLogOut,
       disabled: true,
       destructive: true,
@@ -112,7 +121,11 @@ function HeaderDropdown() {
             className={cn(`${item.mobileOnly && "sm:hidden"}`)}
             variant={item.destructive ? "destructive" : "default"}
           >
-            <Link href={item.url} className="flex gap-2 text-inherit">
+            <Link
+              href={item.url}
+              className="flex gap-2 text-inherit"
+              onClick={item.onClick}
+            >
               <span>{item.title}</span>{" "}
               {item.Icon && <item.Icon className="text-inherit" />}
             </Link>

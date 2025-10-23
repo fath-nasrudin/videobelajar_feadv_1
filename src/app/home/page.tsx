@@ -131,7 +131,7 @@ function Newsletter() {
   );
 }
 
-export function Homepage() {
+export default function Homepage() {
   return (
     <>
       <Header />
@@ -144,5 +144,3 @@ export function Homepage() {
     </>
   );
 }
-
-export default withAuth(Homepage);

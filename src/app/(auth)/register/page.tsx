@@ -1,8 +1,13 @@
+"use client";
+
 import { Header } from "@/components/header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/lib/auth/use-auth";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { LuEye } from "react-icons/lu";
 
 const fieldIds = {
@@ -46,7 +51,26 @@ const fields = [
   },
 ];
 
+const initialState = Object.fromEntries(
+  fields.map((f) => [f.name, ""])
+) as Record<string, string>;
+
 export default function RegisterPage() {
+  const [formData, setFormData] = useState(initialState);
+  const { register } = useAuth();
+  const router = useRouter();
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  }
+
+  function handleRegister(e: React.FormEvent) {
+    e.preventDefault();
+    register(formData.email, formData.password);
+
+    router.push("/home");
+  }
   return (
     <div className="min-h-dvh flex flex-col">
       <Header />
@@ -66,7 +90,7 @@ export default function RegisterPage() {
               if (field.name === "phoneNumber") {
                 return (
                   <div key={field.name}>
-                    <Label htmlFor={fieldIds.phone}>Phone Number</Label>
+                    <Label htmlFor={field.name}>{field.label}</Label>
 
                     <div className="flex gap-4 text-sm">
                       <div className="border border-gray-300 rounded-md text-sm overflow-hidden focus:outline-none focus:ring-2 focus:ring-green-500">
@@ -82,10 +106,12 @@ export default function RegisterPage() {
                       </div>
 
                       <Input
-                        id={fieldIds.phone}
-                        type="tel"
+                        id={field.name}
+                        name={field.name}
+                        type={field.type}
                         className="flex-1 border form-input"
-                        required
+                        value={formData[field.name]}
+                        onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -97,8 +123,11 @@ export default function RegisterPage() {
                     <div className="relative">
                       <Input
                         id={field.name}
+                        name={field.name}
                         type={field.type}
                         required={field.required}
+                        value={formData[field.name]}
+                        onChange={handleChange}
                       />
                       {field.Icon && (
                         <field.Icon className="absolute inset-y-0 right-3 text-dark-secondary flex h-full items-center cursor-pointer size-5" />
@@ -110,11 +139,14 @@ export default function RegisterPage() {
             })}
 
             <div className="flex flex-col gap-2">
-              <Link href="/login">
-                <Button type="submit" variant={"primary"} className="w-full">
-                  Daftar
-                </Button>
-              </Link>
+              <Button
+                type="submit"
+                variant={"primary"}
+                className="w-full"
+                onClick={handleRegister}
+              >
+                Daftar
+              </Button>
 
               <Link href="/login">
                 <Button
