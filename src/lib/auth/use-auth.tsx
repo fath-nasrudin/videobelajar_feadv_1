@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "@/types";
+import { CreateUserInput, User } from "@/types";
 import { useEffect, useState } from "react";
 import {
   getCurrentUser,
@@ -23,8 +23,8 @@ export function useAuth() {
     return stop;
   }, []);
 
-  const doRegister = async (email: string, password: string) => {
-    const session = await register(email, password);
+  const doRegister = async (userData: CreateUserInput) => {
+    const session = await register(userData);
     setUser(session.user);
     return session;
   };

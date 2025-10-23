@@ -22,7 +22,12 @@ export type User = {
   id: string;
   email: string;
   password: string;
+  phoneCountry: string;
+  phoneNumber: string;
+  fullname: string;
 };
+
+export type CreateUserInput = Omit<User, "id"> & { confirmPassword: string };
 
 export type Session = {
   user: User;

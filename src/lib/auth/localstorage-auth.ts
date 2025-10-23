@@ -1,4 +1,4 @@
-import { Session, User } from "@/types";
+import { CreateUserInput, Session, User } from "@/types";
 
 const USERS_KEY = "__dummy_auth_users";
 const SESSION_KEY = "__dummy_auth_session";
@@ -72,15 +72,28 @@ function fakeTokenFor(user: User) {
 }
 
 // ---- core API ----
-export async function register(email: string, password: string) {
-  // no password/email checks by design
+export async function register({
+  email,
+  fullname,
+  password,
+  confirmPassword,
+  phoneCountry,
+  phoneNumber,
+}: CreateUserInput) {
   const users = getUsers();
   const exists = users.find((u) => u.email === email);
   if (exists) {
     throw new Error("Email already taken");
   }
 
-  const user: User = { id: randId(), email, password };
+  const user: User = {
+    id: randId(),
+    email,
+    password,
+    fullname,
+    phoneCountry,
+    phoneNumber,
+  };
   users.push(user);
   saveUsers(users);
 

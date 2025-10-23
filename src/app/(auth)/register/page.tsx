@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/lib/auth/use-auth";
+import { CreateUserInput } from "@/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { LuEye } from "react-icons/lu";
+import { LuEye, LuEyeClosed } from "react-icons/lu";
 
 const fieldIds = {
   email: "reg-email",
@@ -18,7 +19,13 @@ const fieldIds = {
   phone: "reg-phone",
 };
 
-const fields = [
+const fields: {
+  name: keyof CreateUserInput;
+  label: string;
+  type: string;
+  required?: boolean;
+  Icon?: typeof LuEyeClosed;
+}[] = [
   {
     name: "email",
     label: "E-Mail",
@@ -53,10 +60,10 @@ const fields = [
 
 const initialState = Object.fromEntries(
   fields.map((f) => [f.name, ""])
-) as Record<string, string>;
+) as CreateUserInput;
 
 export default function RegisterPage() {
-  const [formData, setFormData] = useState(initialState);
+  const [formData, setFormData] = useState<CreateUserInput>(initialState);
   const { register } = useAuth();
   const router = useRouter();
 
@@ -67,7 +74,7 @@ export default function RegisterPage() {
 
   function handleRegister(e: React.FormEvent) {
     e.preventDefault();
-    register(formData.email, formData.password);
+    register(formData);
 
     router.push("/home");
   }
