@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { LuEye } from "react-icons/lu";
 
 const fieldIds = {
   email: "reg-email",
@@ -11,6 +12,39 @@ const fieldIds = {
   fullname: "reg-fullname",
   phone: "reg-phone",
 };
+
+const fields = [
+  {
+    name: "email",
+    label: "E-Mail",
+    type: "email",
+    required: true,
+  },
+  {
+    name: "fullname",
+    label: "Full Name",
+    type: "text",
+  },
+  {
+    name: "phoneNumber",
+    label: "Phone Number",
+    type: "tel",
+  },
+  {
+    name: "password",
+    label: "Password",
+    type: "password",
+    required: true,
+    Icon: LuEye,
+  },
+  {
+    name: "confirmPassword",
+    label: "Confirm Password",
+    type: "password",
+    required: true,
+    Icon: LuEye,
+  },
+];
 
 export default function RegisterPage() {
   return (
@@ -28,67 +62,53 @@ export default function RegisterPage() {
 
           {/* <!-- Form --> */}
           <form className="space-y-4">
-            {/* <!-- Nama Lengkap --> */}
-            <div>
-              <Label htmlFor={fieldIds.fullname}>Nama Lengkap</Label>
-              <Input id={fieldIds.fullname} type="text" required />
-            </div>
+            {fields.map((field) => {
+              if (field.name === "phoneNumber") {
+                return (
+                  <div key={field.name}>
+                    <Label htmlFor={fieldIds.phone}>Phone Number</Label>
 
-            {/* <!-- Email --> */}
-            <div>
-              <Label htmlFor={fieldIds.email}>E-Mail</Label>
-              <Input id={fieldIds.email} type="email" required />
-            </div>
+                    <div className="flex gap-4 text-sm">
+                      <div className="border border-gray-300 rounded-md text-sm overflow-hidden focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <span className="inline-block bg-base-200 h-full px-3 py-2">
+                          🇮🇩
+                        </span>
+                        <span className="inline-block py-2 pr-4">+62</span>
+                        <img
+                          src="/img/chevron-down.svg"
+                          alt="Dropdown"
+                          className="inline-block w-4 h-4 mr-2"
+                        />
+                      </div>
 
-            {/* <!-- Phone number --> */}
-            <div>
-              <Label htmlFor={fieldIds.phone}>Phone Number</Label>
+                      <Input
+                        id={fieldIds.phone}
+                        type="tel"
+                        className="flex-1 border form-input"
+                        required
+                      />
+                    </div>
+                  </div>
+                );
+              } else {
+                return (
+                  <div key={field.name}>
+                    <Label htmlFor={field.name}>{field.label}</Label>
+                    <div className="relative">
+                      <Input
+                        id={field.name}
+                        type={field.type}
+                        required={field.required}
+                      />
+                      {field.Icon && (
+                        <field.Icon className="absolute inset-y-0 right-3 text-dark-secondary flex h-full items-center cursor-pointer size-5" />
+                      )}
+                    </div>
+                  </div>
+                );
+              }
+            })}
 
-              <div className="flex gap-4 text-sm">
-                <div className="border border-gray-300 rounded-md text-sm overflow-hidden focus:outline-none focus:ring-2 focus:ring-green-500">
-                  <span className="inline-block bg-base-200 h-full px-3 py-2">
-                    🇮🇩
-                  </span>
-                  <span className="inline-block py-2 pr-4">+62</span>
-                  <img
-                    src="/img/chevron-down.svg"
-                    alt="Dropdown"
-                    className="inline-block w-4 h-4 mr-2"
-                  />
-                </div>
-
-                <Input
-                  id={fieldIds.phone}
-                  type="tel"
-                  className="flex-1 border form-input"
-                  required
-                />
-              </div>
-            </div>
-
-            {/* <!-- Kata Sandi --> */}
-            <div>
-              <Label htmlFor={fieldIds.password}>Kata Sandi</Label>
-              <div className="relative">
-                <Input id={fieldIds.password} type="password" />
-                <span className="absolute inset-y-0 right-3 flex items-center text-gray-400 cursor-pointer text-sm">
-                  👁
-                </span>
-              </div>
-            </div>
-
-            {/* <!-- Konfirmasi kata sandi --> */}
-            <div>
-              <Label htmlFor={fieldIds.confirmPassword}>
-                Konfirmasi Kata Sandi
-              </Label>
-              <div className="relative">
-                <Input id={fieldIds.confirmPassword} type="password" />
-                <span className="absolute inset-y-0 right-3 flex items-center text-gray-400 cursor-pointer text-sm">
-                  👁
-                </span>
-              </div>
-            </div>
             <div className="flex flex-col gap-2">
               <Link href="/login">
                 <Button type="submit" variant={"primary"} className="w-full">
