@@ -14,12 +14,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAuth } from "@/lib/auth/use-auth";
+import { useProfile } from "@/lib/data/profile/use-profile";
 import { cn } from "@/lib/utils";
+import { CreateUserInput, UpdateUserInput, User } from "@/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { BsCartFill } from "react-icons/bs";
-import { LuUser } from "react-icons/lu";
+import { LuEye, LuUser } from "react-icons/lu";
 import { RiBook2Fill } from "react-icons/ri";
 
 const data = [
@@ -28,15 +31,127 @@ const data = [
   { Icon: BsCartFill, text: "Pesanan Saya", url: "/me/orders" },
 ];
 
+const fields: {
+  name: keyof CreateUserInput;
+  label: string;
+  type: string;
+  required?: boolean;
+  Icon?: typeof LuEye;
+}[] = [
+  {
+    name: "email",
+    label: "E-Mail",
+    type: "email",
+    required: true,
+  },
+  {
+    name: "fullname",
+    label: "Full Name",
+    type: "text",
+  },
+  // {
+  //   name: "phoneNumber",
+  //   label: "Phone Number",
+  //   type: "tel",
+  // },
+  // {
+  //   name: "phoneCountry",
+  //   label: "Phone Code",
+  //   type: "text",
+  // },
+];
+
+function InputPhone({
+  phoneCountry,
+  phoneNumber,
+  onChange,
+}: Pick<User, "phoneCountry" | "phoneNumber"> & {
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement> | string,
+    name?: keyof UpdateUserInput
+  ) => void;
+}) {
+  return (
+    <div className="flex gap-2">
+      <Select
+        name="phoneCountry"
+        value={phoneCountry || ""}
+        onValueChange={(value) => onChange(value, "phoneCountry")}
+      >
+        <SelectTrigger className="w-[100px]">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="+62">🇮🇩 +62</SelectItem>
+          <SelectItem value="+1">🇺🇸 +1</SelectItem>
+          <SelectItem value="+44">🇬🇧 +44</SelectItem>
+          <SelectItem value="+81">🇯🇵 +81</SelectItem>
+        </SelectContent>
+      </Select>
+
+      <div className="relative w-full">
+        <Input
+          id="phonenumber"
+          name="phoneNumber"
+          type="tel"
+          required
+          className="peer"
+          value={phoneNumber || ""}
+          onChange={onChange}
+        />
+        <Label
+          htmlFor="phonenumber"
+          className="absolute px-2 -top-1/3 left-3 bg-card peer-focus:text-primary"
+        >
+          Phone Number
+        </Label>
+      </div>
+    </div>
+  );
+}
+
 export default function ProfilePage() {
   const pathname = usePathname();
-  const [profile, setProfile] = useState({
-    fullname: "Jennie Ruby Jane",
-    email: "rubyjane@gmail.com",
-    phoneCode: "+62",
-    phoneNumber: "8123123123",
+  const { user } = useAuth();
+  const { updateProfile } = useProfile();
+  if (!user) return <p>Not authenticated</p>;
+
+  const [profile, setProfile] = useState<CreateUserInput>({
+    fullname: user?.fullname,
+    email: user.email,
+    phoneCountry: user.phoneCountry || "",
+    phoneNumber: user.phoneNumber || "",
+    confirmPassword: user.password,
+    password: user.password,
   });
+
   const [draftProfile, setDraftProfile] = useState(profile);
+  // function handleDraftChange(e: React.ChangeEvent<HTMLInputElement>) {
+  //   const { name, value } = e.target;
+  //   setDraftProfile((prev) => ({ ...prev, [name]: value }));
+  // }
+
+  function handleDraftChange(
+    e: React.ChangeEvent<HTMLInputElement> | string,
+    name?: keyof UpdateUserInput
+  ) {
+    if (typeof e === "string" && name) {
+      // untuk Select
+      setDraftProfile((prev) => ({ ...prev, [name]: e }));
+    } else if (typeof e !== "string") {
+      // untuk Input
+      const { name: fieldName, value } = e.target;
+      setDraftProfile((prev) => ({ ...prev, [fieldName]: value }));
+    }
+  }
+
+  function handleUpdateProfile(e: React.FormEvent) {
+    e.preventDefault();
+    if (!user?.id) return;
+    setProfile(draftProfile);
+    updateProfile(user?.id, draftProfile);
+  }
+
   return (
     <div className="space-y-10">
       <Header />
@@ -97,101 +212,36 @@ export default function ProfilePage() {
           {/* form */}
           <form className="flex flex-col gap-4">
             <div className="flex gap-4 flex-col lg:flex-row">
-              <div className="relative">
-                <Input
-                  id="namalengkap"
-                  type="text"
-                  required
-                  className="peer"
-                  value={draftProfile.fullname || ""}
-                  onChange={(e) =>
-                    setDraftProfile({
-                      ...draftProfile,
-                      fullname: e.target.value,
-                    })
-                  }
-                />
-                <Label
-                  htmlFor="namalengkap"
-                  className="absolute px-2 -top-1/3 left-3 bg-card peer-focus:text-primary"
-                >
-                  Nama Lengkap
-                </Label>
-              </div>
-              <div className="relative">
-                <Input
-                  id="email"
-                  type="email"
-                  required
-                  className="peer"
-                  value={draftProfile.email || ""}
-                  onChange={(e) =>
-                    setDraftProfile({
-                      ...draftProfile,
-                      email: e.target.value,
-                    })
-                  }
-                />
-                <Label
-                  htmlFor="email"
-                  className="absolute px-2 -top-1/3 left-3 bg-card peer-focus:text-primary"
-                >
-                  Email
-                </Label>
-              </div>
-              <div className="flex gap-2">
-                <Select
-                  defaultValue="+62"
-                  value={draftProfile.phoneCode || ""}
-                  onValueChange={(value) =>
-                    setDraftProfile({
-                      ...draftProfile,
-                      phoneCode: value,
-                    })
-                  }
-                >
-                  <SelectTrigger className="w-[100px]">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="+62">🇮🇩 +62</SelectItem>
-                    <SelectItem value="+1">🇺🇸 +1</SelectItem>
-                    <SelectItem value="+44">🇬🇧 +44</SelectItem>
-                    <SelectItem value="+81">🇯🇵 +81</SelectItem>
-                  </SelectContent>
-                </Select>
-
-                <div className="relative w-full">
+              {fields.map((f) => (
+                <div className="relative" key={f.name}>
                   <Input
-                    id="phonenumber"
-                    type="tel"
-                    required
+                    id={f.name}
+                    name={f.name}
+                    type={f.type}
+                    required={f.required}
                     className="peer"
-                    value={draftProfile.phoneNumber || ""}
-                    onChange={(e) =>
-                      setDraftProfile({
-                        ...draftProfile,
-                        phoneNumber: e.target.value,
-                      })
-                    }
+                    value={draftProfile[f.name] || ""}
+                    onChange={handleDraftChange}
                   />
                   <Label
-                    htmlFor="phonenumber"
+                    htmlFor={f.name}
                     className="absolute px-2 -top-1/3 left-3 bg-card peer-focus:text-primary"
                   >
-                    Phone Number
+                    {f.label}
                   </Label>
                 </div>
-              </div>
+              ))}
+              <InputPhone
+                onChange={handleDraftChange}
+                phoneCountry={draftProfile.phoneCountry}
+                phoneNumber={draftProfile.phoneNumber}
+              />
             </div>
 
             <Button
               className="sm:self-end"
               variant={"primary"}
-              onClick={(e) => {
-                e.preventDefault();
-                setProfile(draftProfile);
-              }}
+              onClick={handleUpdateProfile}
             >
               Simpan
             </Button>

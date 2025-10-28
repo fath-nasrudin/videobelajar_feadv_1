@@ -43,6 +43,11 @@ const fields: {
     type: "tel",
   },
   {
+    name: "phoneCountry",
+    label: "Phone Country",
+    type: "option",
+  },
+  {
     name: "password",
     label: "Password",
     type: "password",
