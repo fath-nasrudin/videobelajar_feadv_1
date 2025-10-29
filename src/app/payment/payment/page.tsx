@@ -11,10 +11,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { ROUTES } from "@/constants/routes";
 import { getCourseDetail } from "@/data/courses";
 import { paymentOptionList } from "@/data/payment";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { formatPrice } from "@/lib/utils";
+import Link from "next/link";
 
 const courseDetail = getCourseDetail();
 const currentPayment = paymentOptionList.find((p) => p.code === "bca");
@@ -153,9 +155,11 @@ function RingkasanPesanan() {
         </div>
       </div>
       <div className="flex gap-4">
-        <Button className="flex-1" variant={"primaryOutlined"}>
-          Ganti Metode Pembayaran
-        </Button>
+        <Link className="flex-1" href={ROUTES.paymentChangeMethod.path}>
+          <Button className="w-full" variant={"primaryOutlined"}>
+            Ganti Metode Pembayaran
+          </Button>
+        </Link>
         <Button className="flex-1" variant={"primary"}>
           Beli Sekarang
         </Button>
