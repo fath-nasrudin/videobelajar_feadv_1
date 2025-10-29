@@ -84,15 +84,15 @@ export const paymentOptionList: PaymentMethod[] = [
 const paymentOptions: PaymentCategory[] = [
   {
     category: "Transfer Bank",
-    methods: paymentOptionList.filter((p) => (p.type = "bank_transfer")),
+    methods: paymentOptionList.filter((p) => p.type === "bank_transfer"),
   },
   {
     category: "E-Wallet",
-    methods: paymentOptionList.filter((p) => (p.type = "ewallet")),
+    methods: paymentOptionList.filter((p) => p.type === "ewallet"),
   },
   {
     category: "Kartu Kredit/Debit",
-    methods: paymentOptionList.filter((p) => (p.type = "credit_debit_card")),
+    methods: paymentOptionList.filter((p) => p.type === "credit_debit_card"),
   },
 ];
 
