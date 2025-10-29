@@ -2,11 +2,22 @@
 import { Container } from "@/components/container";
 import { Footer } from "@/components/footer";
 import { HeaderComposable } from "@/components/header";
+import { SectionShell } from "@/components/section-shell";
 import { StepIndicator } from "@/components/step-indicator";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { getCourseDetail } from "@/data/courses";
+import { getPaymentOptions } from "@/data/payment";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 
 const courseDetail = getCourseDetail();
+const paymentOptions = getPaymentOptions();
 
 function CTA() {
   return (
@@ -70,7 +81,45 @@ export default function PaymentPage() {
       {/* main content */}
       <Container className="flex flex-col-reverse lg:flex-row gap-6">
         {/* left part */}
-        <div className="lg:flex-1 space-y-6"></div>
+        <div className="lg:flex-1 space-y-6">
+          <SectionShell>
+            <h5 className="text-heading-5 font-semibold text-dark-primary">
+              Metode Pembayaran
+            </h5>
+            <RadioGroup>
+              {paymentOptions.map((item) => (
+                <Accordion key={item.category} type="single" collapsible>
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger className="text-body-base text-dark-primary font-bold py-4 px-5 border-border border-[1px] rounded-card mb-2">
+                      {item.category}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <ul className="space-y-2">
+                        {item.methods.map((method) => (
+                          <li
+                            key={method.code}
+                            className="text-body-sm py-4 px-5 border-border border-[1px] rounded-card flex gap-2 items-center"
+                          >
+                            <img
+                              src={method.image.url}
+                              className="w-10 h-full"
+                            />
+                            <Label htmlFor={method.code}>{method.name}</Label>
+                            <RadioGroupItem
+                              className="ml-auto"
+                              value={method.code}
+                              id={method.code}
+                            />
+                          </li>
+                        ))}
+                      </ul>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              ))}
+            </RadioGroup>
+          </SectionShell>
+        </div>
 
         {/* right part */}
         <div className="lg:max-w-[366px]">
