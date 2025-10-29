@@ -2,8 +2,14 @@
 import { useState, useEffect } from "react";
 
 export function useIsMobile(breakpoint = 768) {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" && window.innerWidth <= breakpoint
+    isClient && window.innerWidth <= breakpoint
   );
 
   useEffect(() => {
