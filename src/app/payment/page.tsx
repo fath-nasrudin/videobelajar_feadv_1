@@ -144,7 +144,7 @@ function RingkasanPesanan() {
 
 export default function PaymentPage() {
   const steps = ["Pilih Metode", "Bayar", "Selesai"];
-  const currentStep = 2;
+  const currentStep = 1;
   const isMobile = useIsMobile();
 
   return (
