@@ -160,9 +160,11 @@ function RingkasanPesanan() {
             Ganti Metode Pembayaran
           </Button>
         </Link>
-        <Button className="flex-1" variant={"primary"}>
-          Beli Sekarang
-        </Button>
+        <Link className="flex-1" href={ROUTES.paymentSuccess.path}>
+          <Button className="w-full" variant={"primary"}>
+            Beli Sekarang
+          </Button>
+        </Link>
       </div>
     </div>
   );

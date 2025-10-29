@@ -15,4 +15,7 @@ export const ROUTES = {
   paymentChangeMethod: {
     path: "/payment/change-method",
   },
+  paymentSuccess: {
+    path: "/payment/success",
+  },
 };
