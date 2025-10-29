@@ -10,11 +10,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { getCourseDetail } from "@/data/courses";
 import { getPaymentOptions } from "@/data/payment";
 import { useIsMobile } from "@/hooks/use-is-mobile";
+import { formatPrice } from "@/lib/utils";
 
 const courseDetail = getCourseDetail();
 const paymentOptions = getPaymentOptions();
@@ -105,6 +107,41 @@ function PaymentMethods() {
   );
 }
 
+function RingkasanPesanan() {
+  const biayaAdmin = 7000;
+  const coursePrice = courseDetail.price.discounted * 1000;
+  return (
+    <SectionShell className="text-body-lg text-dark-secondary">
+      <h5 className="text-heading-5 font-semibold text-dark-primary">
+        Ringkasan Pesanan
+      </h5>
+      <div className="flex">
+        <div className="flex-1">{courseDetail.title}</div>
+        <div className="font-bold w-40 text-right">
+          {formatPrice(coursePrice, true)}
+        </div>
+      </div>
+      <div className="flex">
+        <div className="flex-1">Biaya Admin</div>
+        <div className="font-bold w-40 text-right">
+          {formatPrice(biayaAdmin, true)}
+        </div>
+      </div>
+      <div className="flex">
+        <div className="flex-1 text-dark-primary font-bold">
+          Total Pembayaran
+        </div>
+        <div className="font-bold w-40 text-right text-primary">
+          {formatPrice(coursePrice + biayaAdmin, true)}
+        </div>
+      </div>
+      <Button variant={"primary"} className="w-full">
+        Beli Sekarang
+      </Button>
+    </SectionShell>
+  );
+}
+
 export default function PaymentPage() {
   const steps = ["Pilih Metode", "Bayar", "Selesai"];
   const currentStep = 2;
@@ -124,6 +161,7 @@ export default function PaymentPage() {
         {/* left part */}
         <div className="lg:flex-1 space-y-6">
           <PaymentMethods />
+          <RingkasanPesanan />
         </div>
 
         {/* right part */}
