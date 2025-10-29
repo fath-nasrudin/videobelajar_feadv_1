@@ -1,3 +1,5 @@
+import { ROUTES } from "@/constants/routes";
+
 export type PaymentMethod = {
   name: string;
   code: string;
@@ -97,3 +99,23 @@ const paymentOptions: PaymentCategory[] = [
 ];
 
 export const getPaymentOptions = () => paymentOptions;
+
+export type PageSteps = {
+  label: string;
+  url: string;
+};
+
+export const getPaymentSteps = (): PageSteps[] => [
+  {
+    label: "Pilih Metode",
+    url: ROUTES.paymentOptions.path,
+  },
+  {
+    label: "Bayar",
+    url: ROUTES.paymentConfirmation.path,
+  },
+  {
+    label: "Selesai",
+    url: ROUTES.paymentSuccess.path,
+  },
+];

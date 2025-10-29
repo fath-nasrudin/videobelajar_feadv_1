@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { getCourseDetail } from "@/data/courses";
-import { paymentOptionList } from "@/data/payment";
+import { getPaymentSteps, paymentOptionList } from "@/data/payment";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
@@ -204,7 +204,7 @@ function TatacaraPembayaran() {
 }
 
 export default function PaymentPage() {
-  const steps = ["Pilih Metode", "Bayar", "Selesai"];
+  const steps = getPaymentSteps();
   const currentStep = 2;
   const isMobile = useIsMobile();
 

@@ -11,6 +11,7 @@ import { formatPrice } from "@/lib/utils";
 import { PaymentMethods } from "../components/payment-methods";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
+import { getPaymentSteps } from "@/data/payment";
 
 const courseDetail = getCourseDetail();
 
@@ -109,7 +110,7 @@ function ChangePaymentMethod() {
 }
 
 export default function PaymentPage() {
-  const steps = ["Pilih Metode", "Bayar", "Selesai"];
+  const steps = getPaymentSteps();
   const currentStep = 2;
   const isMobile = useIsMobile();
 

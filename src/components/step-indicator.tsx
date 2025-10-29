@@ -1,9 +1,11 @@
 "use client";
+import { PageSteps } from "@/data/payment";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 import { LuCheck } from "react-icons/lu";
 
 type StepIndicatorProps = React.ComponentProps<"div"> & {
-  steps: string[];
+  steps: PageSteps[];
   currentStep: number; // start from 1
 };
 
@@ -20,15 +22,16 @@ export function StepIndicator({
     >
       {steps.map((step, index) => {
         const stepNumber = index + 1;
-        const stepLabel = steps[index];
+        const stepLabel = steps[index].label;
         const isActive = stepNumber === currentStep;
         const isCompleted = stepNumber < currentStep;
 
         return (
-          <div key={step} className="flex items-center">
+          <div key={step.label} className="flex items-center">
             {/* Dot */}
-            <div
-              className={`
+            <Link href={step.url}>
+              <div
+                className={`
                 flex items-center justify-center w-8 h-8 rounded-full border-4 text-sm font-medium
                 ${
                   isCompleted
@@ -38,12 +41,13 @@ export function StepIndicator({
                     : "border-dark-disabled text-dark-disabled"
                 }
               `}
-            >
-              {isCompleted && <LuCheck />}
-              {isActive && (
-                <div className="w-4 h-4 rounded-full bg-primary"></div>
-              )}
-            </div>
+              >
+                {isCompleted && <LuCheck />}
+                {isActive && (
+                  <div className="w-4 h-4 rounded-full bg-primary"></div>
+                )}
+              </div>
+            </Link>
             <div
               className={`
                 mx-4 text-body-sm font-bold

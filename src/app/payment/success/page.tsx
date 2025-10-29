@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ROUTES } from "@/constants/routes";
 import { getCourseDetail } from "@/data/courses";
-import { getPaymentOptions } from "@/data/payment";
+import { getPaymentOptions, getPaymentSteps } from "@/data/payment";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
@@ -24,7 +24,7 @@ const courseDetail = getCourseDetail();
 const paymentOptions = getPaymentOptions();
 
 export default function PaymentSuccessPage() {
-  const steps = ["Pilih Metode", "Bayar", "Selesai"];
+  const steps = getPaymentSteps();
   const currentStep = 3;
   const isMobile = useIsMobile();
 
