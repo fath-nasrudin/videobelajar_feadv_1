@@ -64,6 +64,47 @@ function CTA() {
   );
 }
 
+function PaymentMethods() {
+  return (
+    <SectionShell>
+      <h5 className="text-heading-5 font-semibold text-dark-primary">
+        Metode Pembayaran
+      </h5>
+      <RadioGroup>
+        {paymentOptions.map((item) => (
+          <Accordion key={item.category} type="single" collapsible>
+            <AccordionItem value="item-1">
+              <AccordionTrigger className="text-body-base text-dark-primary font-bold py-4 px-5 border-border border-[1px] rounded-card mb-2">
+                {item.category}
+              </AccordionTrigger>
+              <AccordionContent>
+                <ul className="space-y-2">
+                  {item.methods.map((method) => (
+                    <li
+                      key={method.code}
+                      className="text-body-sm py-4 px-5 border-border border-[1px] rounded-card flex gap-2 items-center"
+                    >
+                      <img src={method.image.url} className="w-10 h-full" />
+                      <Label htmlFor={method.code} className="w-full">
+                        {method.name}
+                      </Label>
+                      <RadioGroupItem
+                        className="ml-auto"
+                        value={method.code}
+                        id={method.code}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        ))}
+      </RadioGroup>
+    </SectionShell>
+  );
+}
+
 export default function PaymentPage() {
   const steps = ["Pilih Metode", "Bayar", "Selesai"];
   const currentStep = 2;
@@ -82,43 +123,7 @@ export default function PaymentPage() {
       <Container className="flex flex-col-reverse lg:flex-row gap-6">
         {/* left part */}
         <div className="lg:flex-1 space-y-6">
-          <SectionShell>
-            <h5 className="text-heading-5 font-semibold text-dark-primary">
-              Metode Pembayaran
-            </h5>
-            <RadioGroup>
-              {paymentOptions.map((item) => (
-                <Accordion key={item.category} type="single" collapsible>
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger className="text-body-base text-dark-primary font-bold py-4 px-5 border-border border-[1px] rounded-card mb-2">
-                      {item.category}
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <ul className="space-y-2">
-                        {item.methods.map((method) => (
-                          <li
-                            key={method.code}
-                            className="text-body-sm py-4 px-5 border-border border-[1px] rounded-card flex gap-2 items-center"
-                          >
-                            <img
-                              src={method.image.url}
-                              className="w-10 h-full"
-                            />
-                            <Label htmlFor={method.code}>{method.name}</Label>
-                            <RadioGroupItem
-                              className="ml-auto"
-                              value={method.code}
-                              id={method.code}
-                            />
-                          </li>
-                        ))}
-                      </ul>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              ))}
-            </RadioGroup>
-          </SectionShell>
+          <PaymentMethods />
         </div>
 
         {/* right part */}
