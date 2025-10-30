@@ -12,10 +12,9 @@ import { PaymentMethods } from "../components/payment-methods";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 import { getPaymentSteps } from "@/data/payment";
+import { Course } from "@/types";
 
-const courseDetail = getCourseDetail();
-
-function CTA() {
+function CTA({ courseDetail }: { courseDetail: Course }) {
   return (
     <div className="bg-card border-border border rounded-card p-6 space-y-6">
       <img
@@ -60,7 +59,7 @@ function CTA() {
   );
 }
 
-function RingkasanPesanan() {
+function RingkasanPesanan({ courseDetail }: { courseDetail: Course }) {
   const biayaAdmin = 7000;
   const coursePrice = courseDetail.price.discounted * 1000;
   return (
@@ -113,6 +112,8 @@ export default function PaymentPage() {
   const steps = getPaymentSteps();
   const currentStep = 2;
   const isMobile = useIsMobile();
+  const courseDetail = getCourseDetail("c_1");
+  if (!courseDetail) return <p>Course not found</p>;
 
   return (
     <div className="space-y-10">
@@ -127,13 +128,13 @@ export default function PaymentPage() {
       <Container className="flex flex-col-reverse lg:flex-row gap-6">
         {/* left part */}
         <div className="lg:flex-1 space-y-6">
-          <RingkasanPesanan />
+          <RingkasanPesanan courseDetail={courseDetail} />
           <ChangePaymentMethod />
         </div>
 
         {/* right part */}
         <div className="lg:max-w-[366px]">
-          <CTA />
+          <CTA courseDetail={courseDetail} />
         </div>
       </Container>
       <Footer />

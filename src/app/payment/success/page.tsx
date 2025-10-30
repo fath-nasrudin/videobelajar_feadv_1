@@ -20,7 +20,6 @@ import { useIsMobile } from "@/hooks/use-is-mobile";
 import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
 
-const courseDetail = getCourseDetail();
 const paymentOptions = getPaymentOptions();
 
 export default function PaymentSuccessPage() {

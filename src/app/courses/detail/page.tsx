@@ -9,160 +9,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { getCourseDetail } from "@/data/courses";
+import { Course } from "@/types";
 import React from "react";
-
-const courseDetail = {
-  description:
-    "Foundations of User Experience (UX) Design adalah yang pertama dari rangkaian tujuh kursus yang akan membekali Anda dengan keterampilan yang dibutuhkan untuk melamar pekerjaan tingkat pemula dalam desain pengalaman pengguna. Desainer UX fokus pada interaksi yang dilakukan orang dengan produk seperti situs web, aplikasi seluler, dan objek fisik. Desainer UX membuat interaksi sehari-hari itu dapat digunakan, menyenangkan, dan dapat diakses. Peran seorang desainer UX tingkat pemula mungkin termasuk berempati dengan pengguna, menentukan poin rasa sakit mereka, memunculkan ide untuk solusi desain, membuat wireframe, prototipe, dan maket, dan menguji desain untuk mendapatkan umpan balik.",
-  title:
-    "Gapai Karier Impianmu sebagai Seorang UI/UX Designer & Product Manager.",
-  instructors: [
-    {
-      id: "instructor-1",
-      name: "Gregorius Edrik Lawanto",
-      position: "Senior Talent Acquisition",
-      company: "WingsGroup",
-      description:
-        "Berkarier di bidang HR selama lebih dari 3 tahun. Saat ini bekerja sebagai Senior Talent Acquisition Specialist di Wings Group Indonesia (Sayap Mas Utama) selama hampir 1 tahun.",
-      profileUrl: "/img/instructor/8.png",
-    },
-
-    {
-      id: "instructor-2",
-      name: "Gregorius Edrik Lawanto",
-      position: "Senior Talent Acquisition",
-      company: "WingsGroup",
-      description:
-        "Berkarier di bidang HR selama lebih dari 3 tahun. Saat ini bekerja sebagai Senior Talent Acquisition Specialist di Wings Group Indonesia (Sayap Mas Utama) selama hampir 1 tahun.",
-      profileUrl: "/img/instructor/8.png",
-    },
-  ],
-  modules: [
-    {
-      title: "Introduction to Course 1: Foundations of User Experience Design",
-      materials: [
-        {
-          title: "The basics of user experience design",
-          type: "video",
-          duration: "12 minutes",
-        },
-        {
-          title: "Jobs in the field of user experience",
-          type: "video",
-          duration: "12 minutes",
-        },
-        {
-          title: "The product development life cycle",
-          type: "video",
-          duration: "12 minutes",
-        },
-      ],
-    },
-    {
-      title: "Universal design, inclusive design, and equity-focused design",
-      materials: [
-        {
-          title: "The basics of user experience design",
-          type: "video",
-          duration: "12 minutes",
-        },
-        {
-          title: "Jobs in the field of user experience",
-          type: "video",
-          duration: "12 minutes",
-        },
-        {
-          title: "The product development life cycle",
-          type: "video",
-          duration: "12 minutes",
-        },
-      ],
-    },
-    {
-      title: "Introduction to design sprints",
-      materials: [
-        {
-          title: "The basics of user experience design",
-          type: "video",
-          duration: "12 minutes",
-        },
-        {
-          title: "Jobs in the field of user experience",
-          type: "video",
-          duration: "12 minutes",
-        },
-        {
-          title: "The product development life cycle",
-          type: "video",
-          duration: "12 minutes",
-        },
-      ],
-    },
-    {
-      title: "Introduction to UX research",
-      materials: [
-        {
-          title: "The basics of user experience design",
-          type: "video",
-          duration: "12 minutes",
-        },
-        {
-          title: "Jobs in the field of user experience",
-          type: "video",
-          duration: "12 minutes",
-        },
-        {
-          title: "The product development life cycle",
-          type: "video",
-          duration: "12 minutes",
-        },
-      ],
-    },
-  ],
-  reviews: [
-    {
-      account: {
-        id: "user-01",
-        name: "Gregorius Edrik Lawanto",
-        status: "Alumni Batch 2",
-        profileUrl: "/img/instructor/8.png",
-      },
-      text: "Berkarier di bidang HR selama lebih dari 3 tahun. Saat ini bekerja sebagai Senior Talent Acquisition Specialist di Wings Group Indonesia (Sayap Mas Utama) selama hampir 1 tahun.",
-      rating: 3.5,
-    },
-    {
-      account: {
-        id: "user-02",
-        name: "Julious Edrik Lawanto",
-        status: "Alumni Batch 4",
-        profileUrl: "/img/instructor/8.png",
-      },
-      text: "Berkarier di bidang HR selama lebih dari 3 tahun. Saat ini bekerja sebagai Senior Talent Acquisition Specialist di Wings Group Indonesia (Sayap Mas Utama) selama hampir 1 tahun.",
-      rating: 3.5,
-    },
-  ],
-  price: {
-    discounted: 250,
-    original: 500,
-    discount_percentage: 50,
-  },
-  features: [
-    {
-      title: "Kelas Ini Sudah Termasuk",
-      items: [
-        { iconUrl: "/img/icons/file-check.svg", text: "Ujian Akhir" },
-        { iconUrl: "/img/icons/book-2.svg", text: "49 Video" },
-        { iconUrl: "/img/icons/file-edit.svg", text: "7 Dokumen" },
-        { iconUrl: "/img/icons/video.svg", text: "Sertifikat" },
-        { iconUrl: "/img/icons/file-certificate.svg", text: "Pretest" },
-      ],
-    },
-    {
-      title: "Bahasa pengantar",
-      items: [{ iconUrl: "/img/icons/world.svg", text: "Bahasa Indonesia" }],
-    },
-  ],
-};
 
 function Rating({ rating }: { rating: { average: number; count?: number } }) {
   return (
@@ -190,14 +39,11 @@ function SectionShell({ children }: { children: React.ReactNode }) {
   );
 }
 
-function Hero() {
+function Hero({ courseDetail }: { courseDetail: Course }) {
   return (
     <Hero1>
       <div className="max-w-[920px] p-4 space-y-4 text-light-primary text-left">
-        <h2 className="text-heading-2">
-          Gapai Karier Impianmu sebagai Seorang UI/UX Designer & Product
-          Manager.
-        </h2>
+        <h2 className="text-heading-2">{courseDetail.title}</h2>
         <p className="text-body-base">
           Belajar bersama tutor profesional di Video Course.{" "}
           <span className="block">Kapanpun, di manapun.</span>
@@ -208,7 +54,7 @@ function Hero() {
   );
 }
 
-function Description() {
+function Description({ courseDetail }: { courseDetail: Course }) {
   return (
     <SectionShell>
       <h5 className="text-heading-5">Deskripsi</h5>
@@ -219,7 +65,7 @@ function Description() {
   );
 }
 
-function Instructors() {
+function Instructors({ courseDetail }: { courseDetail: Course }) {
   const instructors = courseDetail.instructors;
   return (
     <SectionShell>
@@ -258,7 +104,7 @@ function Instructors() {
   );
 }
 
-function Modules() {
+function Modules({ courseDetail }: { courseDetail: Course }) {
   const modules = courseDetail.modules;
   return (
     <SectionShell>
@@ -307,7 +153,7 @@ function Modules() {
   );
 }
 
-function Reviews() {
+function Reviews({ courseDetail }: { courseDetail: Course }) {
   const reviews = courseDetail.reviews;
   return (
     <SectionShell>
@@ -346,12 +192,15 @@ function Reviews() {
   );
 }
 
-function CTA() {
+function CTA({ courseDetail }: { courseDetail: Course }) {
   return (
     <div className="bg-card border-border border rounded-card p-6 space-y-6">
-      <h6 className="text-heading-6">
-        Gapai Karier Impianmu sebagai Seorang UI/UX Designer & Product Manager.
-      </h6>
+      <img
+        src={courseDetail.image.url}
+        className="h-[82px] hidden sm:block sm:h-auto sm:w-full sm:aspect-video object-cover rounded-lg"
+      />
+
+      <h6 className="text-heading-6">{courseDetail.title}</h6>
       {/* pricing */}
       <div className="flex items-center justify-between">
         {/* discounted price */}
@@ -393,25 +242,27 @@ function CTA() {
 }
 
 export default function CourseDetailPage() {
+  const courseDetail = getCourseDetail("c_1");
+  if (!courseDetail) return <p>Course not found</p>;
   return (
     <>
       <Header />
       <main className="space-y-6 py-7 sm:py-16">
-        <Hero />
+        <Hero courseDetail={courseDetail} />
 
         {/* main content */}
         <Container className="flex flex-col-reverse lg:flex-row gap-6">
           {/* left part */}
           <div className="lg:flex-1 space-y-6">
-            <Description />
-            <Instructors />
-            <Modules />
-            <Reviews />
+            <Description courseDetail={courseDetail} />
+            <Instructors courseDetail={courseDetail} />
+            <Modules courseDetail={courseDetail} />
+            <Reviews courseDetail={courseDetail} />
           </div>
 
           {/* right part */}
           <div className="lg:max-w-[366px]">
-            <CTA />
+            <CTA courseDetail={courseDetail} />
           </div>
         </Container>
       </main>

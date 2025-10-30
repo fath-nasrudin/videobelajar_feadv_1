@@ -18,12 +18,12 @@ import { getCourseDetail } from "@/data/courses";
 import { getPaymentOptions, getPaymentSteps } from "@/data/payment";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { formatPrice } from "@/lib/utils";
+import { Course } from "@/types";
 import Link from "next/link";
 
-const courseDetail = getCourseDetail();
 const paymentOptions = getPaymentOptions();
 
-function CTA() {
+function CTA({ courseDetail }: { courseDetail: Course }) {
   return (
     <div className="bg-card border-border border rounded-card p-6 space-y-6">
       <img
@@ -109,7 +109,7 @@ function PaymentMethods() {
   );
 }
 
-function RingkasanPesanan() {
+function RingkasanPesanan({ courseDetail }: { courseDetail: Course }) {
   const biayaAdmin = 7000;
   const coursePrice = courseDetail.price.discounted * 1000;
   return (
@@ -150,6 +150,8 @@ export default function PaymentPage() {
   const steps = getPaymentSteps();
   const currentStep = 1;
   const isMobile = useIsMobile();
+  const courseDetail = getCourseDetail("c_1");
+  if (!courseDetail) return <p>Course not found</p>;
 
   return (
     <div className="space-y-10">
@@ -165,12 +167,12 @@ export default function PaymentPage() {
         {/* left part */}
         <div className="lg:flex-1 space-y-6">
           <PaymentMethods />
-          <RingkasanPesanan />
+          <RingkasanPesanan courseDetail={courseDetail} />
         </div>
 
         {/* right part */}
         <div className="lg:max-w-[366px]">
-          <CTA />
+          <CTA courseDetail={courseDetail} />
         </div>
       </Container>
       <Footer />

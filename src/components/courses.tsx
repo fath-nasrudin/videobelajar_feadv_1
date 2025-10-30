@@ -22,17 +22,18 @@ export function CourseCard({ course }: { course: Course }) {
           {/* <!-- profile --> */}
           <div className="flex items-center gap-2">
             <img
-              src={course.instructor.imageUrl}
+              src={course.instructors[0].profileUrl}
               className="w-9 aspect-square rounded-[10px] object-cover"
             />
             <div>
               <div className="text-body-base text-dark-primary">
-                {course.instructor.name}
+                {course.instructors[0].name}
               </div>
               <div className="text-body-sm text-dark-secondary">
-                {course.instructor.title}
+                {course.instructors[0].position}
                 <span className="hidden sm:inline">
-                  di <strong>{course.instructor.company}</strong>
+                  {" "}
+                  di <strong>{course.instructors[0].company}</strong>
                 </span>
               </div>
             </div>

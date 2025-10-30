@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { Hero1 } from "@/components/hero-1";
 import { Button } from "@/components/ui/button";
+import { getCourses } from "@/data/courses";
 import { withAuth } from "@/lib/auth/dummy-auth";
 import { Course } from "@/types";
 import Link from "next/link";
@@ -19,36 +20,6 @@ const pageData = {
     action: "Temukan Video Course untuk Dipelajari!",
   },
 };
-
-function getCourses() {
-  const courses: Course[] = [];
-  for (let i = 1; i <= 9; i++) {
-    courses.push({
-      title: "Big 4 Auditor Financial Analyst",
-      description:
-        "Mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan kurikulum terbaik",
-      image: {
-        url: `./img/card/${i}.jpg`,
-        alt: "img",
-      },
-      instructor: {
-        company: "Gojek",
-        name: "Jenna Ortega",
-        imageUrl: `./img/instructor/${i}.png`,
-        title: "Senior Accountant",
-      },
-      rating: {
-        average: 3.6,
-        ratingCount: 86,
-      },
-      price: {
-        discounted: 100,
-        original: 300,
-      },
-    });
-  }
-  return courses;
-}
 
 function Hero() {
   return (

@@ -16,9 +16,9 @@ import { getCourseDetail } from "@/data/courses";
 import { getPaymentSteps, paymentOptionList } from "@/data/payment";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { formatPrice } from "@/lib/utils";
+import { Course } from "@/types";
 import Link from "next/link";
 
-const courseDetail = getCourseDetail();
 const currentPayment = paymentOptionList.find((p) => p.code === "bca");
 const tatacaraPembayaran = [
   {
@@ -58,7 +58,7 @@ const tatacaraPembayaran = [
   },
 ];
 
-function CTA() {
+function CTA({ courseDetail }: { courseDetail: Course }) {
   return (
     <div className="bg-card border-border border rounded-card p-6 space-y-6">
       <img
@@ -103,7 +103,7 @@ function CTA() {
   );
 }
 
-function PaymentMethods() {
+function PaymentMethods({ courseDetail }: { courseDetail: Course }) {
   return (
     <SectionShell>
       <h5 className="text-heading-5 font-semibold text-dark-primary">
@@ -121,12 +121,12 @@ function PaymentMethods() {
           <button className="text-accent cursor-pointer">Salin</button>
         </div>
       </div>
-      <RingkasanPesanan />
+      <RingkasanPesanan courseDetail={courseDetail} />
     </SectionShell>
   );
 }
 
-function RingkasanPesanan() {
+function RingkasanPesanan({ courseDetail }: { courseDetail: Course }) {
   const biayaAdmin = 7000;
   const coursePrice = courseDetail.price.discounted * 1000;
   return (
@@ -207,6 +207,8 @@ export default function PaymentPage() {
   const steps = getPaymentSteps();
   const currentStep = 2;
   const isMobile = useIsMobile();
+  const courseDetail = getCourseDetail("c_1");
+  if (!courseDetail) return <p>Course not found</p>;
 
   return (
     <div className="space-y-10">
@@ -221,13 +223,13 @@ export default function PaymentPage() {
       <Container className="flex flex-col-reverse lg:flex-row gap-6">
         {/* left part */}
         <div className="lg:flex-1 space-y-6">
-          <PaymentMethods />
+          <PaymentMethods courseDetail={courseDetail} />
           <TatacaraPembayaran />
         </div>
 
         {/* right part */}
         <div className="lg:max-w-[366px]">
-          <CTA />
+          <CTA courseDetail={courseDetail} />
         </div>
       </Container>
       <Footer />
