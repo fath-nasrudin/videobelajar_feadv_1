@@ -59,6 +59,35 @@ export type Instructor = {
   profileUrl: string;
 };
 
+export type Order = {
+  id: string;
+  courseId: string;
+  userId: string;
+  status: "pending" | "cancelled" | "success" | "waiting_payment";
+  invoice: string;
+  paidAt?: string;
+};
+
+export type CreateOrderInput = Pick<Order, "userId" | "courseId">;
+export type UpdateOrderInput = Partial<Omit<Order, "id">>;
+
+export type Payment = {
+  id: string;
+  orderId: string;
+  paymentMethodId: string;
+  status: "pending" | "cancelled" | "success" | "waiting_payment";
+};
+
+export type PaymentMethod = {
+  id: string;
+  name: string;
+  code: string;
+  type: "bank_transfer" | "ewallet" | "credit_debit_card";
+  image: {
+    url: string;
+  };
+};
+
 export type CreateUserInput = Omit<User, "id"> & { confirmPassword: string };
 export type UpdateUserInput = Partial<CreateUserInput>;
 
