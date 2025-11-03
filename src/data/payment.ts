@@ -105,17 +105,17 @@ export type PageSteps = {
   url: string;
 };
 
-export const getPaymentSteps = (): PageSteps[] => [
+export const getPaymentSteps = (orderId: string): PageSteps[] => [
   {
     label: "Pilih Metode",
-    url: ROUTES.paymentOptions.path,
+    url: ROUTES.payment.methods.getPath(orderId),
   },
   {
     label: "Bayar",
-    url: ROUTES.paymentConfirmation.path,
+    url: ROUTES.payment.confirmation.getPath(orderId),
   },
   {
     label: "Selesai",
-    url: ROUTES.paymentSuccess.path,
+    url: ROUTES.payment.success.getPath(orderId),
   },
 ];
