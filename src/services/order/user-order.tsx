@@ -1,3 +1,5 @@
+"use client";
+
 import {
   isClient,
   randId,
@@ -68,9 +70,14 @@ export function useOrder() {
     setOrders(getOrdersWithCourse());
   };
 
+  const doGetOrderById = (orderId: string) => {
+    return orders.find((o) => o.id === orderId);
+  };
+
   return {
     orders,
     createOrder: doCreateOrder,
     updateOrder: doUpdateOrder,
+    getOrderById: doGetOrderById,
   };
 }

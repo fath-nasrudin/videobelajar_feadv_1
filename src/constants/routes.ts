@@ -23,6 +23,12 @@ export const ROUTES = {
     path: "/payment/success",
   },
 
+  payment: {
+    methods: {
+      getPath: (orderId: string) => `/payment/${orderId}`,
+    },
+  },
+
   me: {
     myorders: {
       path: "/me/myorders",

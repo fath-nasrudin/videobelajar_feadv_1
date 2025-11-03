@@ -1,4 +1,5 @@
 "use client";
+
 import { Container } from "@/components/container";
 import { Footer } from "@/components/footer";
 import { HeaderComposable } from "@/components/header";
@@ -18,8 +19,10 @@ import { getCourseDetail } from "@/data/courses";
 import { getPaymentOptions, getPaymentSteps } from "@/data/payment";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { formatPrice } from "@/lib/utils";
+import { useOrder } from "@/services/order/user-order";
 import { Course } from "@/types";
 import Link from "next/link";
+import { use } from "react";
 
 const paymentOptions = getPaymentOptions();
 
@@ -146,11 +149,18 @@ function RingkasanPesanan({ courseDetail }: { courseDetail: Course }) {
   );
 }
 
-export default function PaymentPage() {
+type PaymentPageProps = {
+  params: Promise<{ orderId: string }>;
+};
+export default function PaymentPage({ params }: PaymentPageProps) {
+  const { orderId } = use(params);
+  const { getOrderById } = useOrder();
+  const order = getOrderById(orderId);
+  if (!order) return <p>Order Not Found</p>;
   const steps = getPaymentSteps();
   const currentStep = 1;
   const isMobile = useIsMobile();
-  const courseDetail = getCourseDetail("c_1");
+  const courseDetail = getCourseDetail(order.courseId);
   if (!courseDetail) return <p>Course not found</p>;
 
   return (
