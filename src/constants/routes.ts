@@ -22,4 +22,16 @@ export const ROUTES = {
   paymentSuccess: {
     path: "/payment/success",
   },
+
+  me: {
+    myorders: {
+      path: "/me/myorders",
+    },
+    myprofile: {
+      path: "/me/profile",
+    },
+    myclasses: {
+      path: "/me/classes",
+    },
+  },
 };

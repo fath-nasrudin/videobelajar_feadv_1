@@ -13,6 +13,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth/use-auth";
 import { logout } from "@/lib/auth/localstorage-auth";
+import { ROUTES } from "@/constants/routes";
 
 export function Header() {
   const pathname = usePathname();
@@ -83,12 +84,12 @@ const getHeaderNavLinks = () => {
     },
     {
       title: "Kelas Saya",
-      url: "#",
+      url: ROUTES.me.myclasses.path,
       disabled: true,
     },
     {
       title: "Pesanan Saya",
-      url: "#",
+      url: ROUTES.me.myorders.path,
       disabled: true,
     },
     {
