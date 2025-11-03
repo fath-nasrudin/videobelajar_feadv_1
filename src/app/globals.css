@@ -29,6 +29,11 @@
   --color-base-200: var(--mbg-secondary);
   --color-base-300: var(--mbg-base);
 
+  /* general color */
+  --color-error: var(--error);
+  --color-success: var(--success);
+  --color-info: var(--info);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-head: var(--font-poppins);
@@ -120,7 +125,11 @@
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
 
+  /* general color */
   --destructive: oklch(0.577 0.245 27.325);
+  --success: rgba(56, 209, 137, 1);
+  --error: rgba(255, 92, 43, 1);
+  --info: rgba(9, 128, 226, 1);
 
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
