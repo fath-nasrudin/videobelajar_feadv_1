@@ -15,6 +15,14 @@ import { useAuth } from "@/lib/auth/use-auth";
 import { logout } from "@/lib/auth/localstorage-auth";
 import { ROUTES } from "@/constants/routes";
 
+function HeaderBrand() {
+  return (
+    <Link href={ROUTES.home.path} className=" mr-auto">
+      <img src="/img/logo.png" className="h-7" />
+    </Link>
+  );
+}
+
 export function Header() {
   const pathname = usePathname();
   const { isAuthenticated: isLoggedIn } = useAuth();
@@ -34,7 +42,7 @@ export function Header() {
   return (
     <header className="py-6 px-8 border-b border-border bg-base-100 sticky top-0 bg- z-10 shadow-xl sm:shadow-none">
       <div className="mx-auto w-full max-w-[1200px] px-4 flex items-center gap-4">
-        <img src="/img/logo.png" className="h-7 mr-auto" />
+        <HeaderBrand />
 
         {!isAuthPath && <Menu />}
 
@@ -166,6 +174,4 @@ export function HeaderComposable({ children }: { children: React.ReactNode }) {
   );
 }
 
-HeaderComposable.Brand = function HeaderBrand() {
-  return <img src="/img/logo.png" className="h-7 mr-auto" />;
-};
+HeaderComposable.Brand = HeaderBrand;
