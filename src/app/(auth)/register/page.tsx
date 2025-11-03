@@ -128,6 +128,7 @@ export default function RegisterPage() {
                     </div>
                   </div>
                 );
+              } else if (field.name === "phoneCountry") {
               } else {
                 return (
                   <div key={field.name}>
