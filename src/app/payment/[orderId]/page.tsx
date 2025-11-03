@@ -112,7 +112,9 @@ function PaymentMethods() {
   );
 }
 
-function RingkasanPesanan({ courseDetail }: { courseDetail: Course }) {
+type ComponenProps = { courseDetail: Course; orderId: string };
+
+function RingkasanPesanan({ courseDetail, orderId }: ComponenProps) {
   const biayaAdmin = 7000;
   const coursePrice = courseDetail.price.discounted * 1000;
   return (
@@ -140,7 +142,7 @@ function RingkasanPesanan({ courseDetail }: { courseDetail: Course }) {
           {formatPrice(coursePrice + biayaAdmin, true)}
         </div>
       </div>
-      <Link href={ROUTES.paymentConfirmation.path}>
+      <Link href={ROUTES.payment.confirmation.getPath(orderId)}>
         <Button variant={"primary"} className="w-full">
           Beli Sekarang
         </Button>
@@ -157,7 +159,7 @@ export default function PaymentPage({ params }: PaymentPageProps) {
   const { getOrderById } = useOrder();
   const order = getOrderById(orderId);
   if (!order) return <p>Order Not Found</p>;
-  const steps = getPaymentSteps();
+  const steps = getPaymentSteps(orderId);
   const currentStep = 1;
   const isMobile = useIsMobile();
   const courseDetail = getCourseDetail(order.courseId);
@@ -177,7 +179,7 @@ export default function PaymentPage({ params }: PaymentPageProps) {
         {/* left part */}
         <div className="lg:flex-1 space-y-6">
           <PaymentMethods />
-          <RingkasanPesanan courseDetail={courseDetail} />
+          <RingkasanPesanan courseDetail={courseDetail} orderId={orderId} />
         </div>
 
         {/* right part */}

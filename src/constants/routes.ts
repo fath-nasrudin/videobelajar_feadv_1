@@ -13,19 +13,19 @@ export const ROUTES = {
   paymentMethods: {
     path: "/payment",
   },
-  paymentConfirmation: {
-    path: "/payment/payment",
-  },
   paymentChangeMethod: {
     path: "/payment/change-method",
-  },
-  paymentSuccess: {
-    path: "/payment/success",
   },
 
   payment: {
     methods: {
       getPath: (orderId: string) => `/payment/${orderId}`,
+    },
+    confirmation: {
+      getPath: (orderId: string) => `/payment/${orderId}/confirmation`,
+    },
+    success: {
+      getPath: (orderId: string) => `/payment/${orderId}/success`,
     },
   },
 

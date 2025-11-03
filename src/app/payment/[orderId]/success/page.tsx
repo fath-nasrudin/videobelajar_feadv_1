@@ -19,11 +19,17 @@ import { getPaymentOptions, getPaymentSteps } from "@/data/payment";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
+import { use } from "react";
 
 const paymentOptions = getPaymentOptions();
 
-export default function PaymentSuccessPage() {
-  const steps = getPaymentSteps();
+export default function PaymentSuccessPage({
+  params,
+}: {
+  params: Promise<{ orderId: string }>;
+}) {
+  const { orderId } = use(params);
+  const steps = getPaymentSteps(orderId);
   const currentStep = 3;
   const isMobile = useIsMobile();
 
@@ -47,9 +53,11 @@ export default function PaymentSuccessPage() {
             Silakan cek email kamu untuk informasi lebih lanjut. Hubungi kami
             jika ada kendala.
           </p>
-          <Button variant={"primary"} className="w-full sm:w-min">
-            Lihat Detail Pesanan
-          </Button>
+          <Link href={ROUTES.me.myorders.path}>
+            <Button variant={"primary"} className="w-full sm:w-min">
+              Lihat Detail Pesanan
+            </Button>
+          </Link>
         </SectionShell>
       </Container>
     </div>

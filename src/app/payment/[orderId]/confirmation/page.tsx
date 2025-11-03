@@ -16,8 +16,11 @@ import { getCourseDetail } from "@/data/courses";
 import { getPaymentSteps, paymentOptionList } from "@/data/payment";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { formatPrice } from "@/lib/utils";
+import { useOrder } from "@/services/order/use-order";
 import { Course } from "@/types";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { use } from "react";
 
 const currentPayment = paymentOptionList.find((p) => p.code === "bca");
 const tatacaraPembayaran = [
@@ -103,7 +106,13 @@ function CTA({ courseDetail }: { courseDetail: Course }) {
   );
 }
 
-function PaymentMethods({ courseDetail }: { courseDetail: Course }) {
+function PaymentMethods({
+  courseDetail,
+  orderId,
+}: {
+  courseDetail: Course;
+  orderId: string;
+}) {
   return (
     <SectionShell>
       <h5 className="text-heading-5 font-semibold text-dark-primary">
@@ -121,14 +130,28 @@ function PaymentMethods({ courseDetail }: { courseDetail: Course }) {
           <button className="text-accent cursor-pointer">Salin</button>
         </div>
       </div>
-      <RingkasanPesanan courseDetail={courseDetail} />
+      <RingkasanPesanan courseDetail={courseDetail} orderId={orderId} />
     </SectionShell>
   );
 }
 
-function RingkasanPesanan({ courseDetail }: { courseDetail: Course }) {
+function RingkasanPesanan({
+  courseDetail,
+  orderId,
+}: {
+  courseDetail: Course;
+  orderId: string;
+}) {
+  const { payOrder } = useOrder();
+  const router = useRouter();
   const biayaAdmin = 7000;
   const coursePrice = courseDetail.price.discounted * 1000;
+
+  const handleBuy = () => {
+    payOrder(orderId);
+
+    router.push(ROUTES.payment.success.getPath(orderId));
+  };
   return (
     <div className=" flex flex-col gap-4 text-body-lg text-dark-secondary">
       <h5 className="text-heading-5 font-semibold text-dark-primary">
@@ -160,11 +183,9 @@ function RingkasanPesanan({ courseDetail }: { courseDetail: Course }) {
             Ganti Metode Pembayaran
           </Button>
         </Link>
-        <Link className="flex-1" href={ROUTES.paymentSuccess.path}>
-          <Button className="w-full" variant={"primary"}>
-            Beli Sekarang
-          </Button>
-        </Link>
+        <Button className="flex-1" variant={"primary"} onClick={handleBuy}>
+          Beli Sekarang
+        </Button>
       </div>
     </div>
   );
@@ -203,8 +224,13 @@ function TatacaraPembayaran() {
   );
 }
 
-export default function PaymentPage() {
-  const steps = getPaymentSteps();
+export default function PaymentPage({
+  params,
+}: {
+  params: Promise<{ orderId: string }>;
+}) {
+  const { orderId } = use(params);
+  const steps = getPaymentSteps(orderId);
   const currentStep = 2;
   const isMobile = useIsMobile();
   const courseDetail = getCourseDetail("c_1");
@@ -223,7 +249,7 @@ export default function PaymentPage() {
       <Container className="flex flex-col-reverse lg:flex-row gap-6">
         {/* left part */}
         <div className="lg:flex-1 space-y-6">
-          <PaymentMethods courseDetail={courseDetail} />
+          <PaymentMethods courseDetail={courseDetail} orderId={orderId} />
           <TatacaraPembayaran />
         </div>
 
