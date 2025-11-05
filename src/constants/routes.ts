@@ -30,7 +30,8 @@ export const ROUTES = {
       path: "/me/profile",
     },
     myclasses: {
-      path: "/me/classes",
+      path: "#",
+      // path: "/me/classes",
     },
   },
 };

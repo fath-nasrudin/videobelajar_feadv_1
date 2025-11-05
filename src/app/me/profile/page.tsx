@@ -26,12 +26,6 @@ import { LuEye, LuUser } from "react-icons/lu";
 import { RiBook2Fill } from "react-icons/ri";
 import { MeNav } from "../me-nav";
 
-const data = [
-  { Icon: LuUser, text: "Profil Saya", url: "/me/profile" },
-  { Icon: RiBook2Fill, text: "Kelas Saya", url: "/me/classes" },
-  { Icon: BsCartFill, text: "Pesanan Saya", url: "/me/orders" },
-];
-
 const fields: {
   name: keyof CreateUserInput;
   label: string;
