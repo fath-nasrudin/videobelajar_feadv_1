@@ -25,6 +25,7 @@ import { BsCartFill } from "react-icons/bs";
 import { LuEye, LuUser } from "react-icons/lu";
 import { RiBook2Fill } from "react-icons/ri";
 import { MeNav } from "../me-nav";
+import { NotAuthenticated } from "@/components/not-authenticated";
 
 const fields: {
   name: keyof CreateUserInput;
@@ -109,7 +110,7 @@ export default function ProfilePage() {
   const pathname = usePathname();
   const { user } = useAuth();
   const { updateProfile } = useProfile();
-  if (!user) return <p>Not authenticated</p>;
+  if (!user) return <NotAuthenticated />;
 
   const [profile, setProfile] = useState<CreateUserInput>({
     fullname: user?.fullname,

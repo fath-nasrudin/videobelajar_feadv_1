@@ -2,6 +2,7 @@
 import { Container } from "@/components/container";
 import { Footer } from "@/components/footer";
 import { HeaderComposable } from "@/components/header";
+import { NotAuthenticated } from "@/components/not-authenticated";
 import { SectionShell } from "@/components/section-shell";
 import { StepIndicator } from "@/components/step-indicator";
 import {
@@ -15,6 +16,7 @@ import { ROUTES } from "@/constants/routes";
 import { getCourseDetail } from "@/data/courses";
 import { getPaymentSteps, paymentOptionList } from "@/data/payment";
 import { useIsMobile } from "@/hooks/use-is-mobile";
+import { useAuth } from "@/lib/auth/use-auth";
 import { formatPrice } from "@/lib/utils";
 import { useOrder } from "@/services/order/use-order";
 import { Course } from "@/types";
@@ -195,6 +197,9 @@ function RingkasanPesanan({
 }
 
 function TatacaraPembayaran() {
+  const { user } = useAuth();
+  if (!user) return <NotAuthenticated />;
+
   return (
     <SectionShell>
       <h5 className="text-heading-5 font-semibold text-dark-primary">

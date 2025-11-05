@@ -15,6 +15,8 @@ import { getPaymentSteps } from "@/data/payment";
 import { Course } from "@/types";
 import { use } from "react";
 import { useOrder } from "@/services/order/use-order";
+import { NotAuthenticated } from "@/components/not-authenticated";
+import { useAuth } from "@/lib/auth/use-auth";
 
 interface ComponentProps {
   courseDetail: Course;
@@ -120,6 +122,9 @@ export default function PaymentPage({
 }: {
   params: Promise<{ orderId: string }>;
 }) {
+  const { user } = useAuth();
+  if (!user) return <NotAuthenticated />;
+
   const { orderId } = use(params);
   const { getOrderById } = useOrder();
   const order = getOrderById(orderId);

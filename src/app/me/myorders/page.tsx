@@ -10,6 +10,8 @@ import { Order } from "@/types";
 import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
+import { useAuth } from "@/lib/auth/use-auth";
+import { NotAuthenticated } from "@/components/not-authenticated";
 
 const orderStatusLabel: Record<Order["status"], { label: string }> = {
   cancelled: { label: "Gagal" },
@@ -80,6 +82,9 @@ function OrderCard({ order }: { order: Order }) {
 }
 
 export default function MyOrdersPage() {
+  const { user } = useAuth();
+  if (!user) return <NotAuthenticated />;
+
   const { orders } = useOrder();
   return (
     <div className="space-y-10">

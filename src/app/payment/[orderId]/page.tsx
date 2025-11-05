@@ -3,6 +3,7 @@
 import { Container } from "@/components/container";
 import { Footer } from "@/components/footer";
 import { HeaderComposable } from "@/components/header";
+import { NotAuthenticated } from "@/components/not-authenticated";
 import { SectionShell } from "@/components/section-shell";
 import { StepIndicator } from "@/components/step-indicator";
 import {
@@ -18,6 +19,7 @@ import { ROUTES } from "@/constants/routes";
 import { getCourseDetail } from "@/data/courses";
 import { getPaymentOptions, getPaymentSteps } from "@/data/payment";
 import { useIsMobile } from "@/hooks/use-is-mobile";
+import { useAuth } from "@/lib/auth/use-auth";
 import { formatPrice } from "@/lib/utils";
 import { useOrder } from "@/services/order/use-order";
 import { Course } from "@/types";
@@ -155,13 +157,18 @@ type PaymentPageProps = {
   params: Promise<{ orderId: string }>;
 };
 export default function PaymentPage({ params }: PaymentPageProps) {
+  const { user } = useAuth();
+  if (!user) return <NotAuthenticated />;
+
   const { orderId } = use(params);
   const { getOrderById } = useOrder();
   const order = getOrderById(orderId);
   if (!order) return <p>Order Not Found</p>;
+
   const steps = getPaymentSteps(orderId);
   const currentStep = 1;
   const isMobile = useIsMobile();
+
   const courseDetail = getCourseDetail(order.courseId);
   if (!courseDetail) return <p>Course not found</p>;
 

@@ -4,9 +4,10 @@ import { Header } from "@/components/header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ROUTES } from "@/constants/routes";
 import { useAuth } from "@/lib/auth/use-auth";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 const FIELD_IDS = {
@@ -17,16 +18,23 @@ const FIELD_IDS = {
 export default function LoginPage() {
   const { login } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackPath = searchParams.get("callback");
+  const redirectPath = callbackPath ? callbackPath : ROUTES.home.path;
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  function loginHandler(e: React.FormEvent) {
+  async function loginHandler(e: React.FormEvent) {
     e.preventDefault();
-    login(formData.email, formData.password);
-    router.push("/home");
+    try {
+      await login(formData.email, formData.password);
+      router.push(redirectPath);
+    } catch (error) {
+      window.alert("Wrong Email or Password");
+    }
   }
 
   return (

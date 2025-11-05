@@ -2,6 +2,7 @@
 import { Container } from "@/components/container";
 import { Footer } from "@/components/footer";
 import { HeaderComposable } from "@/components/header";
+import { NotAuthenticated } from "@/components/not-authenticated";
 import { SectionShell } from "@/components/section-shell";
 import { StepIndicator } from "@/components/step-indicator";
 import {
@@ -17,6 +18,7 @@ import { ROUTES } from "@/constants/routes";
 import { getCourseDetail } from "@/data/courses";
 import { getPaymentOptions, getPaymentSteps } from "@/data/payment";
 import { useIsMobile } from "@/hooks/use-is-mobile";
+import { useAuth } from "@/lib/auth/use-auth";
 import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
 import { use } from "react";
@@ -28,6 +30,9 @@ export default function PaymentSuccessPage({
 }: {
   params: Promise<{ orderId: string }>;
 }) {
+  const { user } = useAuth();
+  if (!user) return <NotAuthenticated />;
+
   const { orderId } = use(params);
   const steps = getPaymentSteps(orderId);
   const currentStep = 3;
