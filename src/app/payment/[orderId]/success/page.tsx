@@ -31,13 +31,13 @@ export default function PaymentSuccessPage({
   params: Promise<{ orderId: string }>;
 }) {
   const { user } = useAuth();
-  if (!user) return <NotAuthenticated />;
 
   const { orderId } = use(params);
   const steps = getPaymentSteps(orderId);
   const currentStep = 3;
   const isMobile = useIsMobile();
 
+  if (!user) return <NotAuthenticated />;
   return (
     <div className="space-y-10">
       <HeaderComposable>

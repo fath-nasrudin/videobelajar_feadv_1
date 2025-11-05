@@ -110,18 +110,18 @@ export default function ProfilePage() {
   const pathname = usePathname();
   const { user } = useAuth();
   const { updateProfile } = useProfile();
-  if (!user) return <NotAuthenticated />;
 
   const [profile, setProfile] = useState<CreateUserInput>({
-    fullname: user?.fullname,
-    email: user.email,
-    phoneCountry: user.phoneCountry || "",
-    phoneNumber: user.phoneNumber || "",
-    confirmPassword: user.password,
-    password: user.password,
+    fullname: user?.fullname || "",
+    email: user?.email || "",
+    phoneCountry: user?.phoneCountry || "",
+    phoneNumber: user?.phoneNumber || "",
+    confirmPassword: user?.password || "",
+    password: user?.password || "",
   });
 
   const [draftProfile, setDraftProfile] = useState(profile);
+
   // function handleDraftChange(e: React.ChangeEvent<HTMLInputElement>) {
   //   const { name, value } = e.target;
   //   setDraftProfile((prev) => ({ ...prev, [name]: value }));
@@ -148,6 +148,7 @@ export default function ProfilePage() {
     updateProfile(user?.id, draftProfile);
   }
 
+  if (!user) return <NotAuthenticated />;
   return (
     <div className="space-y-10">
       <Header />

@@ -83,9 +83,9 @@ function OrderCard({ order }: { order: Order }) {
 
 export default function MyOrdersPage() {
   const { user } = useAuth();
-  if (!user) return <NotAuthenticated />;
-
   const { orders } = useOrder();
+
+  if (!user) return <NotAuthenticated />;
   return (
     <div className="space-y-10">
       <Header />

@@ -158,7 +158,6 @@ type PaymentPageProps = {
 };
 export default function PaymentPage({ params }: PaymentPageProps) {
   const { user } = useAuth();
-  if (!user) return <NotAuthenticated />;
 
   const { orderId } = use(params);
   const { getOrderById } = useOrder();
@@ -170,8 +169,9 @@ export default function PaymentPage({ params }: PaymentPageProps) {
   const isMobile = useIsMobile();
 
   const courseDetail = getCourseDetail(order.courseId);
-  if (!courseDetail) return <p>Course not found</p>;
 
+  if (!courseDetail) return <p>Course not found</p>;
+  if (!user) return <NotAuthenticated />;
   return (
     <div className="space-y-10">
       <HeaderComposable>
