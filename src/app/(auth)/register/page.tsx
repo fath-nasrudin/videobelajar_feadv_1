@@ -77,11 +77,15 @@ export default function RegisterPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   }
 
-  function handleRegister(e: React.FormEvent) {
+  async function handleRegister(e: React.FormEvent) {
     e.preventDefault();
-    register(formData);
+    try {
+      await register(formData);
 
-    router.push("/home");
+      router.push("/home");
+    } catch (error) {
+      window.alert("Hardcoded: Email already taken");
+    }
   }
   return (
     <div className="min-h-dvh flex flex-col">
