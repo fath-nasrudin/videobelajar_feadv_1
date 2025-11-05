@@ -8,18 +8,21 @@ import { ROUTES } from "@/constants/routes";
 import { useAuth } from "@/lib/auth/use-auth";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { use, useState } from "react";
 
 const FIELD_IDS = {
   EMAIL: "email",
   PASSWORD: "password",
 };
 
-export default function LoginPage() {
+export default function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ callback?: string }>;
+}) {
+  const { callback: callbackPath } = use(searchParams);
   const { login } = useAuth();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const callbackPath = searchParams.get("callback");
   const redirectPath = callbackPath ? callbackPath : ROUTES.home.path;
 
   const [formData, setFormData] = useState({
