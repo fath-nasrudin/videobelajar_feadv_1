@@ -26,7 +26,7 @@ function saveOrders(orders: Order[]) {
   writeStorage(ORDERS_KEY, orders);
 }
 
-export function createOrder(data: CreateOrderInput): void {
+export function createOrder(data: CreateOrderInput) {
   const orders = getOrders();
   const order: Order = {
     id: randId("o_"),
@@ -38,6 +38,7 @@ export function createOrder(data: CreateOrderInput): void {
   };
   orders.push(order);
   saveOrders(orders);
+  return order;
 }
 
 export function updateOrder(orderId: string, data: UpdateOrderInput): void {
