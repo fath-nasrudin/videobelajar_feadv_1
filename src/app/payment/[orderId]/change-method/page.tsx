@@ -14,7 +14,7 @@ import { ROUTES } from "@/constants/routes";
 import { getPaymentSteps } from "@/data/payment";
 import { Course } from "@/types";
 import { use } from "react";
-import { useOrder } from "@/services/order/use-order";
+import { useOrder } from "@/services/order/order.hooks";
 import { NotAuthenticated } from "@/components/not-authenticated";
 import { useAuth } from "@/lib/auth/use-auth";
 

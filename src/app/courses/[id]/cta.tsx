@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { useAuth } from "@/lib/auth/use-auth";
-import { useOrder } from "@/services/order/use-order";
+import { useOrder } from "@/services/order/order.hooks";
 import { Course } from "@/types";
 import { useRouter } from "next/navigation";
 

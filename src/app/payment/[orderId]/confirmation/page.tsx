@@ -18,7 +18,7 @@ import { getPaymentSteps, paymentOptionList } from "@/data/payment";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { useAuth } from "@/lib/auth/use-auth";
 import { formatPrice } from "@/lib/utils";
-import { useOrder } from "@/services/order/use-order";
+import { useOrder } from "@/services/order/order.hooks";
 import { Course } from "@/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
