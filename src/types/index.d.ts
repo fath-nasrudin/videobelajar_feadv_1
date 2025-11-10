@@ -2,7 +2,7 @@ export type Module = {
   title: string;
   materials: {
     title: string;
-    type: "video";
+    type: "video" | "pdf";
     duration: string;
   }[];
 };
