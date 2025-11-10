@@ -1,60 +1,12 @@
 "use client";
 
-import {
-  isClient,
-  randId,
-  readStorage,
-  writeStorage,
-} from "@/lib/localstorage.helper";
 import { CreateOrderInput, Order, UpdateOrderInput } from "@/types";
 import { useState } from "react";
-import { getOrdersWithCourse } from "./order";
-
-const ORDERS_KEY = "__dummy_orders";
-
-function getOrders(): Order[] {
-  return readStorage<Order[]>(ORDERS_KEY) ?? [];
-}
-
-function saveOrders(orders: Order[]) {
-  writeStorage(ORDERS_KEY, orders);
-}
-
-export function createOrder(data: CreateOrderInput) {
-  const orders = getOrders();
-  const order: Order = {
-    id: randId("o_"),
-    courseId: data.courseId,
-    userId: data.userId,
-    invoice: `HEL/VI/${Date.now()}`,
-    status: "waiting_payment",
-    totalPayment: data.totalPayment,
-  };
-  orders.push(order);
-  saveOrders(orders);
-  return order;
-}
-
-export function updateOrder(orderId: string, data: UpdateOrderInput): void {
-  const orders = getOrders();
-  const exists = orders.find((u) => u.id === orderId);
-  if (!exists) {
-    throw new Error("Order not found");
-  }
-
-  const newOrders = orders.map((o) => {
-    if (o.id === orderId) {
-      o = { ...o, ...data };
-    }
-    return o;
-  });
-
-  saveOrders(newOrders);
-}
+import { createOrder, getOrdersWithCourse, updateOrder } from "./order";
 
 export function useOrder() {
   const [orders, setOrders] = useState<Order[] | []>(() =>
-    isClient() ? getOrdersWithCourse() : []
+    getOrdersWithCourse()
   );
 
   const doCreateOrder = (data: CreateOrderInput) => {
