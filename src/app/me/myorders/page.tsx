@@ -5,13 +5,14 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { SectionShell } from "@/components/section-shell";
 import { MeNav } from "../me-nav";
-import { useOrder } from "@/services/order/order.hooks";
 import { Order } from "@/types";
 import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 import { useAuth } from "@/lib/auth/use-auth";
 import { NotAuthenticated } from "@/components/not-authenticated";
+import { useEffect, useState } from "react";
+import { useFetchOrder } from "@/services/order/order.hooks";
 
 const orderStatusLabel: Record<Order["status"], { label: string }> = {
   cancelled: { label: "Gagal" },
@@ -83,7 +84,7 @@ function OrderCard({ order }: { order: Order }) {
 
 export default function MyOrdersPage() {
   const { user } = useAuth();
-  const { orders } = useOrder();
+  const { orders, isLoading, error } = useFetchOrder();
 
   if (!user) return <NotAuthenticated />;
   return (
@@ -118,6 +119,8 @@ export default function MyOrdersPage() {
                 }
                 return <OrderCard key={order.id} order={order} />;
               })
+            ) : !orders.length && isLoading ? (
+              <p className="text-dark-secondary text-center">Loading...</p>
             ) : (
               <p className="text-dark-secondary text-center">
                 No Order Found. Create Order First
