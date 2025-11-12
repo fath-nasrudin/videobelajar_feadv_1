@@ -11,7 +11,6 @@ import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 import { useAuth } from "@/lib/auth/use-auth";
 import { NotAuthenticated } from "@/components/not-authenticated";
-import { useEffect, useState } from "react";
 import { useFetchOrder, useOrderStore } from "@/services/order/order.hooks";
 
 const orderStatusLabel: Record<Order["status"], { label: string }> = {
