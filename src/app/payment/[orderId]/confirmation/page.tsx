@@ -18,7 +18,7 @@ import { getPaymentSteps, paymentOptionList } from "@/data/payment";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { useAuth } from "@/lib/auth/use-auth";
 import { formatPrice } from "@/lib/utils";
-import { useOrder } from "@/services/order/order.hooks";
+import { usePayOrder, useUpdateOrder } from "@/services/order/order.hooks";
 import { Course } from "@/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -144,15 +144,18 @@ function RingkasanPesanan({
   courseDetail: Course;
   orderId: string;
 }) {
-  const { payOrder } = useOrder();
+  const { payOrderAsync, isLoading } = usePayOrder();
   const router = useRouter();
   const biayaAdmin = 7000;
   const coursePrice = courseDetail.price.discounted * 1000;
 
-  const handleBuy = () => {
-    payOrder(orderId);
-
-    router.push(ROUTES.payment.success.getPath(orderId));
+  const handleBuy = async () => {
+    try {
+      await payOrderAsync(orderId);
+      router.push(ROUTES.payment.success.getPath(orderId));
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className=" flex flex-col gap-4 text-body-lg text-dark-secondary">
@@ -188,8 +191,13 @@ function RingkasanPesanan({
             Ganti Metode Pembayaran
           </Button>
         </Link>
-        <Button className="flex-1" variant={"primary"} onClick={handleBuy}>
-          Beli Sekarang
+        <Button
+          disabled={isLoading}
+          className="flex-1"
+          variant={"primary"}
+          onClick={handleBuy}
+        >
+          {isLoading ? "Sedang Diproses" : "Beli Sekarang"}
         </Button>
       </div>
     </div>

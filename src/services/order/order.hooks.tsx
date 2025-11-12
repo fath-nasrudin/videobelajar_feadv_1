@@ -1,7 +1,7 @@
 "use client";
 
 import { randId } from "@/lib/localstorage.helper";
-import { CreateOrderInput, Order } from "@/types";
+import { CreateOrderInput, Order, UpdateOrderInput } from "@/types";
 import { useEffect, useState } from "react";
 import { create } from "zustand";
 
@@ -104,4 +104,63 @@ export const useCreateOrder = () => {
   }
 
   return { isLoading, error, createOrderAsync };
+};
+
+export const useUpdateOrder = () => {
+  const updateOrderStore = useOrderStore((s) => s.updateOrderStore);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>("");
+
+  async function updateOrderAsync(
+    orderId: string,
+    orderData: UpdateOrderInput
+  ) {
+    try {
+      setIsLoading(true);
+      setError("");
+      const response = await fetch(
+        `https://6911b68b7686c0e9c20eb285.mockapi.io/order/${orderId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Request Update failed: ${response.status}`);
+      }
+
+      const updatedOrder = await response.json();
+      updateOrderStore(orderId, updatedOrder);
+      return updatedOrder;
+    } catch (error) {
+      console.log(error);
+      setError("Something went wrong!");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  return { isLoading, error, updateOrderAsync };
+};
+
+export const usePayOrder = () => {
+  const { updateOrderAsync, isLoading, error } = useUpdateOrder();
+
+  async function payOrderAsync(orderId: string) {
+    try {
+      const paidOrder = await updateOrderAsync(orderId, {
+        status: "success",
+        paidAt: new Date().toISOString(),
+      });
+      return paidOrder;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  return { isLoading, error, payOrderAsync };
 };
