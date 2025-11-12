@@ -3,19 +3,19 @@
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { useAuth } from "@/lib/auth/use-auth";
-import { useOrder } from "@/services/order/order.hooks";
+import { useCreateOrder } from "@/services/order/order.hooks";
 import { Course } from "@/types";
 import { useRouter } from "next/navigation";
 
 export function CourseDetailCTA({ courseDetail }: { courseDetail: Course }) {
-  const { createOrder } = useOrder();
+  const { createOrderAsync, isLoading } = useCreateOrder();
   const { user } = useAuth();
   const router = useRouter();
 
-  const handleBuy = () => {
+  const handleBuy = async () => {
     if (!user) return;
 
-    const order = createOrder({
+    const order = await createOrderAsync({
       courseId: courseDetail.id,
       userId: user.id,
       totalPayment: courseDetail.price.discounted,
@@ -50,7 +50,7 @@ export function CourseDetailCTA({ courseDetail }: { courseDetail: Course }) {
       </p>
       {/* button */}
       <Button variant={"primary"} className="w-full" onClick={handleBuy}>
-        Beli Sekarang
+        {isLoading ? "Sedang Diproses" : "Beli Sekarang"}
       </Button>
       {/* features */}
       {courseDetail.features.map((list) => (

@@ -1,21 +1,24 @@
 "use client";
 
-import { Order } from "@/types";
+import { randId } from "@/lib/localstorage.helper";
+import { CreateOrderInput, Order } from "@/types";
 import { useEffect, useState } from "react";
 import { create } from "zustand";
 
 interface OrderState {
   orders: Order[];
   setOrderStore: (orders: Order[]) => void;
-  createOrderStore: (data: Order) => void;
+  addOrderStore: (data: Order) => void;
   updateOrderStore: (orderId: string, data: Order) => void;
   deleteOrderStore: (orderId: string) => void;
+  getOrderById: (orderId: string) => Order | undefined;
 }
 
-export const useOrderStore = create<OrderState>((set) => ({
+export const useOrderStore = create<OrderState>((set, get) => ({
   orders: [],
+  getOrderById: (orderId) => get().orders.find((o) => o.id === orderId),
   setOrderStore: (newOrders) => set({ orders: newOrders }),
-  createOrderStore: (newOrder) =>
+  addOrderStore: (newOrder) =>
     set((state) => ({ orders: [newOrder, ...state.orders] })),
   updateOrderStore: (orderId, orderData) =>
     set((s) => ({
@@ -53,4 +56,52 @@ export const useFetchOrder = () => {
   }, []);
 
   return { isLoading, error };
+};
+
+export const useCreateOrder = () => {
+  const addOrderStore = useOrderStore((s) => s.addOrderStore);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>("");
+
+  async function createOrderAsync(orderData: CreateOrderInput) {
+    const order: Order = {
+      id: randId("o_"),
+      courseId: orderData.courseId,
+      userId: orderData.userId,
+      invoice: `HEL/VI/${Date.now()}`,
+      status: "waiting_payment",
+      totalPayment: orderData.totalPayment,
+    };
+
+    try {
+      setIsLoading(true);
+      setError("");
+      const response = await fetch(
+        `https://6911b68b7686c0e9c20eb285.mockapi.io/order`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(order),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Request failed: ${response.status}`);
+      }
+
+      const createdOrder = await response.json();
+      console.log({ createdOrder });
+      addOrderStore(createdOrder);
+      return createdOrder;
+    } catch (error) {
+      console.log(error);
+      setError("Something went wrong!");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  return { isLoading, error, createOrderAsync };
 };

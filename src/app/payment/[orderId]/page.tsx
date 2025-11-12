@@ -21,7 +21,7 @@ import { getPaymentOptions, getPaymentSteps } from "@/data/payment";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { useAuth } from "@/lib/auth/use-auth";
 import { formatPrice } from "@/lib/utils";
-import { useOrder } from "@/services/order/order.hooks";
+import { useOrderStore } from "@/services/order/order.hooks";
 import { Course } from "@/types";
 import Link from "next/link";
 import { use } from "react";
@@ -158,10 +158,9 @@ type PaymentPageProps = {
 };
 export default function PaymentPage({ params }: PaymentPageProps) {
   const { user } = useAuth();
-
   const { orderId } = use(params);
-  const { getOrderById } = useOrder();
-  const order = getOrderById(orderId);
+  const order = useOrderStore((s) => s.getOrderById(orderId));
+
   if (!order) return <p>Order Not Found</p>;
 
   const steps = getPaymentSteps(orderId);
