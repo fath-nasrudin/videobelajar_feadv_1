@@ -12,7 +12,7 @@ import { ROUTES } from "@/constants/routes";
 import { useAuth } from "@/lib/auth/use-auth";
 import { NotAuthenticated } from "@/components/not-authenticated";
 import { useEffect, useState } from "react";
-import { useFetchOrder } from "@/services/order/order.hooks";
+import { useFetchOrder, useOrderStore } from "@/services/order/order.hooks";
 
 const orderStatusLabel: Record<Order["status"], { label: string }> = {
   cancelled: { label: "Gagal" },
@@ -84,7 +84,8 @@ function OrderCard({ order }: { order: Order }) {
 
 export default function MyOrdersPage() {
   const { user } = useAuth();
-  const { orders, isLoading, error } = useFetchOrder();
+  const orders = useOrderStore((s) => s.orders);
+  const { isLoading } = useFetchOrder();
 
   if (!user) return <NotAuthenticated />;
   return (

@@ -6,6 +6,7 @@ import { create } from "zustand";
 
 interface OrderState {
   orders: Order[];
+  setOrderStore: (orders: Order[]) => void;
   createOrderStore: (data: Order) => void;
   updateOrderStore: (orderId: string, data: Order) => void;
   deleteOrderStore: (orderId: string) => void;
@@ -13,6 +14,7 @@ interface OrderState {
 
 export const useOrderStore = create<OrderState>((set) => ({
   orders: [],
+  setOrderStore: (newOrders) => set({ orders: newOrders }),
   createOrderStore: (newOrder) =>
     set((state) => ({ orders: [newOrder, ...state.orders] })),
   updateOrderStore: (orderId, orderData) =>
@@ -26,7 +28,7 @@ export const useOrderStore = create<OrderState>((set) => ({
 }));
 
 export const useFetchOrder = () => {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const setOrderStore = useOrderStore((s) => s.setOrderStore);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");
 
@@ -38,8 +40,8 @@ export const useFetchOrder = () => {
         const response = await fetch(
           `https://6911b68b7686c0e9c20eb285.mockapi.io/order`
         );
-        const orders = await response.json();
-        setOrders(orders);
+        const newOrders = await response.json();
+        setOrderStore(newOrders);
       } catch (error) {
         console.log(error);
         setError("Something went wrong!");
@@ -50,5 +52,5 @@ export const useFetchOrder = () => {
     fetchOrder();
   }, []);
 
-  return { orders, isLoading, error };
+  return { isLoading, error };
 };
