@@ -4,7 +4,7 @@ import { randId } from "@/lib/localstorage.helper";
 import { CreateOrderInput, Order, UpdateOrderInput } from "@/types";
 import { useEffect, useState } from "react";
 import { create } from "zustand";
-import { fetchOrder } from "./order.service";
+import * as orderService from "./order.service";
 import { FetchError } from "@/lib/errors/FetchError";
 
 interface OrderState {
@@ -42,7 +42,7 @@ export const useFetchOrder = () => {
       setIsLoading(true);
       setError("");
       try {
-        const newOrders = await fetchOrder();
+        const newOrders = await orderService.getOrderlist();
         setOrderStore(newOrders);
       } catch (error) {
         if (error instanceof FetchError) {
@@ -78,23 +78,7 @@ export const useCreateOrder = () => {
     try {
       setIsLoading(true);
       setError("");
-      const response = await fetch(
-        `https://6911b68b7686c0e9c20eb285.mockapi.io/order`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(order),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`Request failed: ${response.status}`);
-      }
-
-      const createdOrder = await response.json();
-      console.log({ createdOrder });
+      const createdOrder = await orderService.createOrder(order);
       addOrderStore(createdOrder);
       return createdOrder;
     } catch (error) {
