@@ -95,22 +95,7 @@ export const useUpdateOrder = () => {
     try {
       setIsLoading(true);
       setError("");
-      const response = await fetch(
-        `https://6911b68b7686c0e9c20eb285.mockapi.io/order/${orderId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(orderData),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`Request Update failed: ${response.status}`);
-      }
-
-      const updatedOrder = await response.json();
+      const updatedOrder = await orderService.updateOrder(orderId, orderData);
       updateOrderStore(orderId, updatedOrder);
       return updatedOrder;
     } catch (error) {

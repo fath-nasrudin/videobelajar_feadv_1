@@ -1,6 +1,6 @@
 import { FetchError } from "@/lib/errors/FetchError";
 import { randId } from "@/lib/localstorage.helper";
-import { CreateOrderInput, Order } from "@/types";
+import { CreateOrderInput, Order, UpdateOrderInput } from "@/types";
 
 export async function getOrderlist(): Promise<Order[]> {
   try {
@@ -49,6 +49,37 @@ export async function createOrder(orderData: CreateOrderInput): Promise<Order> {
 
     const createdOrder = await response.json();
     return createdOrder;
+  } catch (err) {
+    if (err instanceof FetchError) throw err;
+    if (err instanceof Error) throw new FetchError(err.message, 500);
+    throw new FetchError("Internal Server Error", 500);
+  }
+}
+
+export async function updateOrder(
+  orderId: string,
+  orderData: UpdateOrderInput
+): Promise<Order> {
+  try {
+    const response = await fetch(
+      `https://6911b68b7686c0e9c20eb285.mockapi.io/order/${orderId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      }
+    );
+
+    if (!response.ok) {
+      throw new FetchError(
+        `Request failed: ${response.status}`,
+        response.status
+      );
+    }
+
+    return response.json();
   } catch (err) {
     if (err instanceof FetchError) throw err;
     if (err instanceof Error) throw new FetchError(err.message, 500);
