@@ -21,6 +21,8 @@ export function CourseDetailCTA({ courseDetail }: { courseDetail: Course }) {
       totalPayment: courseDetail.price.discounted,
     });
 
+    if (!order) throw new Error("Create Order failed");
+
     router.push(ROUTES.payment.methods.getPath(order.id));
   };
 
