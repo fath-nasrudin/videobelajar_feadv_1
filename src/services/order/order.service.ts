@@ -86,3 +86,27 @@ export async function updateOrder(
     throw new FetchError("Internal Server Error", 500);
   }
 }
+
+export async function deleteOrder(orderId: string): Promise<Order> {
+  try {
+    const response = await fetch(
+      `https://6911b68b7686c0e9c20eb285.mockapi.io/order/${orderId}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (!response.ok) {
+      throw new FetchError(
+        `Request failed: ${response.status}`,
+        response.status
+      );
+    }
+
+    return response.json();
+  } catch (err) {
+    if (err instanceof FetchError) throw err;
+    if (err instanceof Error) throw new FetchError(err.message, 500);
+    throw new FetchError("Internal Server Error", 500);
+  }
+}

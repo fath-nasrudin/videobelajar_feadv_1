@@ -136,21 +136,8 @@ export const useDeleteOrder = () => {
     try {
       setIsLoading(true);
       setError("");
-      const response = await fetch(
-        `https://6911b68b7686c0e9c20eb285.mockapi.io/order/${orderId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
 
-      if (!response.ok) {
-        throw new Error(`Request Delete failed: ${response.status}`);
-      }
-
-      const deletedOrder = await response.json();
+      const deletedOrder = await orderService.deleteOrder(orderId);
       deleteOrderStore(orderId);
       return deletedOrder;
     } catch (error) {
