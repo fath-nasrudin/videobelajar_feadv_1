@@ -4,6 +4,8 @@ import { randId } from "@/lib/localstorage.helper";
 import { CreateOrderInput, Order, UpdateOrderInput } from "@/types";
 import { useEffect, useState } from "react";
 import { create } from "zustand";
+import { fetchOrder } from "./order.service";
+import { FetchError } from "@/lib/errors/FetchError";
 
 interface OrderState {
   orders: Order[];
@@ -36,23 +38,23 @@ export const useFetchOrder = () => {
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
-    async function fetchOrder() {
+    async function fetchEffect() {
       setIsLoading(true);
       setError("");
       try {
-        const response = await fetch(
-          `https://6911b68b7686c0e9c20eb285.mockapi.io/order`
-        );
-        const newOrders = await response.json();
+        const newOrders = await fetchOrder();
         setOrderStore(newOrders);
       } catch (error) {
-        console.log(error);
-        setError("Something went wrong!");
+        if (error instanceof FetchError) {
+          setError(error.message);
+        } else {
+          setError("Something went wrong!");
+        }
       } finally {
         setIsLoading(false);
       }
     }
-    fetchOrder();
+    fetchEffect();
   }, []);
 
   return { isLoading, error };
