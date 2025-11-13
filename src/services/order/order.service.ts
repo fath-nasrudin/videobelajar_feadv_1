@@ -2,11 +2,11 @@ import { FetchError } from "@/lib/errors/FetchError";
 import { randId } from "@/lib/localstorage.helper";
 import { CreateOrderInput, Order, UpdateOrderInput } from "@/types";
 
+const BASE_API = process.env.NEXT_PUBLIC_SERVER_API;
+
 export async function getOrderlist(): Promise<Order[]> {
   try {
-    const response = await fetch(
-      `https://6911b68b7686c0e9c20eb285.mockapi.io/order`
-    );
+    const response = await fetch(`${BASE_API}/order`);
     if (!response.ok) {
       throw new FetchError("Failed to fetch orders", response.status);
     }
@@ -29,16 +29,13 @@ export async function createOrder(orderData: CreateOrderInput): Promise<Order> {
   };
 
   try {
-    const response = await fetch(
-      `https://6911b68b7686c0e9c20eb285.mockapi.io/order`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(order),
-      }
-    );
+    const response = await fetch(`${BASE_API}/order`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(order),
+    });
 
     if (!response.ok) {
       throw new FetchError(
@@ -61,16 +58,13 @@ export async function updateOrder(
   orderData: UpdateOrderInput
 ): Promise<Order> {
   try {
-    const response = await fetch(
-      `https://6911b68b7686c0e9c20eb285.mockapi.io/order/${orderId}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(orderData),
-      }
-    );
+    const response = await fetch(`${BASE_API}/order/${orderId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderData),
+    });
 
     if (!response.ok) {
       throw new FetchError(
@@ -89,12 +83,9 @@ export async function updateOrder(
 
 export async function deleteOrder(orderId: string): Promise<Order> {
   try {
-    const response = await fetch(
-      `https://6911b68b7686c0e9c20eb285.mockapi.io/order/${orderId}`,
-      {
-        method: "DELETE",
-      }
-    );
+    const response = await fetch(`${BASE_API}/order/${orderId}`, {
+      method: "DELETE",
+    });
 
     if (!response.ok) {
       throw new FetchError(
