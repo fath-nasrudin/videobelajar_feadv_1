@@ -66,19 +66,10 @@ export const useCreateOrder = () => {
   const [error, setError] = useState<string>("");
 
   async function createOrderAsync(orderData: CreateOrderInput) {
-    const order: Order = {
-      id: randId("o_"),
-      courseId: orderData.courseId,
-      userId: orderData.userId,
-      invoice: `HEL/VI/${Date.now()}`,
-      status: "waiting_payment",
-      totalPayment: orderData.totalPayment,
-    };
-
     try {
       setIsLoading(true);
       setError("");
-      const createdOrder = await orderService.createOrder(order);
+      const createdOrder = await orderService.createOrder(orderData);
       addOrderStore(createdOrder);
       return createdOrder;
     } catch (error) {

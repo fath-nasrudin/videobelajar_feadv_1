@@ -1,4 +1,5 @@
 import { FetchError } from "@/lib/errors/FetchError";
+import { randId } from "@/lib/localstorage.helper";
 import { CreateOrderInput, Order } from "@/types";
 
 export async function getOrderlist(): Promise<Order[]> {
@@ -17,7 +18,16 @@ export async function getOrderlist(): Promise<Order[]> {
   }
 }
 
-export async function createOrder(order: CreateOrderInput): Promise<Order> {
+export async function createOrder(orderData: CreateOrderInput): Promise<Order> {
+  const order: Order = {
+    id: randId("o_"),
+    courseId: orderData.courseId,
+    userId: orderData.userId,
+    invoice: `HEL/VI/${Date.now()}`,
+    status: "waiting_payment",
+    totalPayment: orderData.totalPayment,
+  };
+
   try {
     const response = await fetch(
       `https://6911b68b7686c0e9c20eb285.mockapi.io/order`,
