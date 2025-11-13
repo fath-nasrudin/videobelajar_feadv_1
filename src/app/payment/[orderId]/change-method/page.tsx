@@ -14,9 +14,9 @@ import { ROUTES } from "@/constants/routes";
 import { getPaymentSteps } from "@/data/payment";
 import { Course } from "@/types";
 import { use } from "react";
-import { useOrder } from "@/services/order/order.hooks";
 import { NotAuthenticated } from "@/components/not-authenticated";
 import { useAuth } from "@/lib/auth/use-auth";
+import { useOrderStore } from "@/services/order/order.hooks";
 
 interface ComponentProps {
   courseDetail: Course;
@@ -125,8 +125,8 @@ export default function PaymentPage({
   const { user } = useAuth();
 
   const { orderId } = use(params);
-  const { getOrderById } = useOrder();
-  const order = getOrderById(orderId);
+
+  const order = useOrderStore((s) => s.getOrderById(orderId));
   if (!order) return <p>Order not found</p>;
   const steps = getPaymentSteps(orderId);
   const currentStep = 2;
